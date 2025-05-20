@@ -1,0 +1,11 @@
+title=Contador Roku
+major_version=1
+minor_version=0
+build_version=00001
+
+# Se você tiver um ícone:
+mm_icon_focus_hd_png=images/icon.png
+
+# Ponto de entrada BrightScript
+bs_script=main.brs
+

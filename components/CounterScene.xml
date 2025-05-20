@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component name="CounterScene" extends="Scene">
+  <!-- Associa ao seu código BrightScript -->
+  <script type="text/brightscript" uri="CounterScene.brs"/>
+
+  <!-- Nós não-visuais (Timer) -->
+  <interface>
+    <Timer id="refreshTimer" interval="1000" control="start"/>
+  </interface>
+
+  <!-- Nós visuais -->
+  <children>
+    <!-- Exibe data e hora atuais -->
+    <Label
+      id="dateLabel"
+      text=""
+      horizAlign="left"
+      vertAlign="top"
+      translation="[20,20]"
+      width="640" height="40"
+      font="Medium"
+    />
+
+    <!-- Exibe contador MM:SS -->
+    <Label
+      id="timerLabel"
+      text="00:00"
+      horizAlign="center"
+      vertAlign="center"
+      translation="[0,0]"
+      width="1280" height="200"
+      font="ExtraLarge"
+    />
+
+    <!-- Botões de controle -->
+    <Group id="controlsGroup" translation="[340,600]" width="600" height="100">
+      <Button id="playBtn"  labelText="Play"  translation="[0,0]"   width="100" height="50"/>
+      <Button id="resetBtn" labelText="Reset" translation="[120,0]" width="100" height="50"/>
+      <Button id="btn3min"  labelText="3:00"  translation="[240,0]" width="100" height="50"/>
+      <Button id="btn10s"   labelText="0:10"  translation="[360,0]" width="100" height="50"/>
+      <Button id="btn1min"  labelText="1:00"  translation="[480,0]" width="100" height="50"/>
+    </Group>
+  </children>
+</component>
