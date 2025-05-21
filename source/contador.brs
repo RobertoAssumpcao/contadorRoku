@@ -43,6 +43,14 @@ sub init()
     m.cronoTimer.control = "start"
     m.top.appendChild(m.cronoTimer)
 
+    ' Timer para efeito de piscar
+    m.blinkTimer = CreateObject("roSGNode", "Timer")
+    m.blinkTimer.duration = 0.2
+    m.blinkTimer.repeat = true
+    m.blinkTimer.observeField("fire", "onBlinkTimer")
+    m.top.appendChild(m.blinkTimer)
+    m.blinkCount = 0
+
     ' Som
     m.audio = CreateObject("roSGNode", "Audio")
     m.top.appendChild(m.audio)
@@ -73,7 +81,11 @@ sub updateCronometro()
 
         if m.cronometroSegundos = 0 then
             m.cronometroAtivo = false
-            tocarSom("pkg:/sounds/end.mp3")
+            tocarSom("pkg:/sounds/Crono.mp3")
+
+            ' Inicia piscar
+            m.blinkCount = 6 ' 3 piscadas (liga-desliga)
+            m.blinkTimer.control = "start"
         end if
     end if
 end sub
@@ -126,11 +138,11 @@ sub handleButtonAction(id as string)
     else if id = "btnPause" then
         m.cronometroAtivo = false
     else if id = "btnAdd3" then
-        m.cronometroSegundos += 3
+        m.cronometroSegundos += 60    ' +1min
     else if id = "btnAdd5" then
-        m.cronometroSegundos += 5
+        m.cronometroSegundos += 120   ' +2min
     else if id = "btnAdd10" then
-        m.cronometroSegundos += 10
+        m.cronometroSegundos += 300   ' +5min
     else if id = "btnReset" then
         m.cronometroAtivo = false
         m.cronometroSegundos = 0
@@ -162,4 +174,14 @@ end sub
 sub tocarSom(caminho as string)
     m.audio.uri = caminho
     m.audio.control = "play"
+end sub
+
+sub onBlinkTimer()
+    if m.blinkCount > 0 then
+        m.cronometroLabel.visible = not m.cronometroLabel.visible
+        m.blinkCount--
+    else
+        m.cronometroLabel.visible = true
+        m.blinkTimer.control = "stop"
+    end if
 end sub

@@ -12,22 +12,23 @@
 
       <Group id="buttonsGroup" translation="[200,330]">
         <Rectangle id="btnPlay" width="100" height="50" translation="[0,0]" color="0xDDDDDDFF" focusable="true">
-          <Label text="▶ Play" horizAlign="center" vertAlign="center" width="100" height="50"/>
+          <Label text="Play" horizAlign="center" vertAlign="center" width="100" height="50"/>
         </Rectangle>
         <Rectangle id="btnPause" width="120" height="50" translation="[110,0]" color="0xDDDDDDFF" focusable="true">
-          <Label text="⏸ Pause" horizAlign="center" vertAlign="center" width="120" height="50"/>
+          <Label text="Pause" horizAlign="center" vertAlign="center" width="120" height="50"/>
         </Rectangle>
-        <Rectangle id="btnAdd3" width="80" height="50" translation="[240,0]" color="0xDDDDDDFF" focusable="true">
-          <Label text="+3s" horizAlign="center" vertAlign="center" width="80" height="50"/>
+        <Rectangle id="btnAdd1" width="80" height="50" translation="[240,0]" color="0xDDDDDDFF" focusable="true">
+          <Label text="+1min" horizAlign="center" vertAlign="center" width="80" height="50"/>
         </Rectangle>
         <Rectangle id="btnAdd5" width="80" height="50" translation="[330,0]" color="0xDDDDDDFF" focusable="true">
-          <Label text="+5s" horizAlign="center" vertAlign="center" width="80" height="50"/>
+          <Label text="+5min" horizAlign="center" vertAlign="center" width="80" height="50"/>
         </Rectangle>
         <Rectangle id="btnAdd10" width="90" height="50" translation="[420,0]" color="0xDDDDDDFF" focusable="true">
-          <Label text="+10s" horizAlign="center" vertAlign="center" width="90" height="50"/>
+          <Label text="+10min" horizAlign="center" vertAlign="center" width="90" height="50"/>
         </Rectangle>
+
         <Rectangle id="btnReset" width="100" height="50" translation="[520,0]" color="0xFFAAAAFF" focusable="true">
-          <Label text="🔄 Reset" horizAlign="center" vertAlign="center" width="100" height="50"/>
+          <Label text="Reset" horizAlign="center" vertAlign="center" width="100" height="50"/>
         </Rectangle>
       </Group>
 
