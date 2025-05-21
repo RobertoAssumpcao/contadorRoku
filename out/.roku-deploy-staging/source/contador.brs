@@ -5,10 +5,8 @@ sub init()
     m.dayLabel = m.top.findNode("dayLabel")
     m.timeLabel = m.top.findNode("timeLabel")
     m.tituloAcademiaLabel.font.size = 43
-    m.tituloAcademiaLabel.font.family = "Roboto"
-    m.tituloAcademiaLabel.font.weight = "bold"
-    m.dayLabel.font.size = 38
-    m.timeLabel.font.size = 38
+    m.dayLabel.font.size = 41
+    m.timeLabel.font.size = 40
 
     m.dayNames = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"]
     m.monthNames = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"]
