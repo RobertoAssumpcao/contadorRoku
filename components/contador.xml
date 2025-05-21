@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>             <!-- Declara a versão do XML e a codificação de caracteres -->
+<component name="Contador" extends="Scene">      <!-- Define um componente SceneGraph chamado HelloWorld -->
+  <children>                                      <!-- Início da seção de nós filhos deste componente -->
+    <!-- Identificador único do Label, Texto padrão exibido no Label, Largura e altura, Alinhamento horizontal e vertical central -->
+    <Label
+      id="dayLabel"
+      text="---"
+      width="1280" height="720"
+      horizAlign="center"
+      vertAlign="center"
+    />
+  </children>                                     <!-- Fim da seção de nós filhos -->
+
+  <!-- Início do código BrightScript -->
+  <script type="text/brightscript"><![CDATA[
+    function init()                              ' Função de inicialização chamada quando a cena é carregada
+      m.top.setFocus(true)                       ' Dá foco ao nó raiz para receber eventos
+      m.dayLabel = m.top.findNode("dayLabel")      ' Busca e armazena a referência ao Label no campo m.dayLabel
+
+      dayNames = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"]
+      dt = CreateObject("roDateTime")
+      dow = dt.GetDayOfWeek()
+
+      m.dayLabel.font.size = 92
+
+      m.dayLabel.text = dayNames[dow - 1]
+    end function                                 ' Fim da função init
+  ]]></script>
+  <!-- Fim do código BrightScript -->
+
+</component>                                     <!-- Fim da definição do componente -->
