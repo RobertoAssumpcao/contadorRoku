@@ -1,15 +1,13 @@
 sub init()
     m.top.setFocus(true)
 
-    ' Labels do relógio e data
+    ' Labels
     m.timeLabel = m.top.findNode("timeLabel")
     m.tituloAcademiaLabel = m.top.findNode("tituloAcademiaLabel")
     m.dayLabel = m.top.findNode("dayLabel")
-
-    ' Label do cronômetro
     m.cronometroLabel = m.top.findNode("cronometroLabel")
 
-    ' Botões do cronômetro
+    ' Botões
     m.btnPlay   = m.top.findNode("btnPlay")
     m.btnPause  = m.top.findNode("btnPause")
     m.btnAdd3   = m.top.findNode("btnAdd3")
@@ -17,26 +15,17 @@ sub init()
     m.btnAdd10  = m.top.findNode("btnAdd10")
     m.btnReset  = m.top.findNode("btnReset")
 
-    ' Lista ordenada dos botões para navegação
-    m.botaoLista       = [m.btnPlay, m.btnPause, m.btnAdd3, m.btnAdd5, m.btnAdd10, m.btnReset]
-    m.botaoIndiceAtual  = 0
+    m.botaoLista = [m.btnPlay, m.btnPause, m.btnAdd3, m.btnAdd5, m.btnAdd10, m.btnReset]
+    m.botaoIndiceAtual = 0
     m.botaoLista[m.botaoIndiceAtual].setFocus(true)
+    atualizaEstiloBotoes()
 
-    ' Observa foco para destaque visual
-    for each botao in m.botaoLista
-        botao.observeField("focusPercent", "onBotaoFocoMudou")
-    end for
-
-    ' Timer para "flash" de clique
+    ' Timer de clique visual
     m.clickTimer = CreateObject("roSGNode", "Timer")
     m.clickTimer.duration = 0.2
     m.clickTimer.repeat = false
     m.clickTimer.observeField("fire", "onClickTimer")
     m.top.appendChild(m.clickTimer)
-
-    ' Arrays de dias e meses
-    m.dayNames   = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"]
-    m.monthNames = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"]
 
     ' Timer do relógio
     m.timer = CreateObject("roSGNode", "Timer")
@@ -46,7 +35,7 @@ sub init()
     m.timer.control = "start"
     m.top.appendChild(m.timer)
 
-    ' Timer do cronômetro decrescente
+    ' Timer do cronômetro
     m.cronoTimer = CreateObject("roSGNode", "Timer")
     m.cronoTimer.duration = 1
     m.cronoTimer.repeat = true
@@ -54,52 +43,47 @@ sub init()
     m.cronoTimer.control = "start"
     m.top.appendChild(m.cronoTimer)
 
-    ' Inicializa cronômetro decrescente
-    m.cronometroSegundos = 0
-    m.cronometroAtivo    = false
+    ' Som
+    m.audio = CreateObject("roSGNode", "Audio")
+    m.top.appendChild(m.audio)
 
-    ' Desenha pela primeira vez
+    ' Datas
+    m.dayNames = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"]
+    m.monthNames = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"]
+
+    ' Estados iniciais
+    m.cronometroSegundos = 0
+    m.cronometroAtivo = false
+
     updateDateTime()
     mostrarCronometro()
 end sub
 
-'--------------------------------------------------
-' Atualiza relógio (hh:mm:ss)
 sub updateDateTime()
     dt = CreateObject("roDateTime")
     dt.ToLocalTime()
-    dow    = dt.GetDayOfWeek()
-    day    = dt.GetDayOfMonth()
-    month  = dt.GetMonth()
-    m.dayLabel.text  = m.dayNames[dow-1] + ", " + day.ToStr() + " de " + m.monthNames[month-1]
-
-    hora   = dt.GetHours()
-    minuto = dt.GetMinutes()
-    segundo= dt.GetSeconds()
-    m.timeLabel.text = formatTime(hora) + ":" + formatTime(minuto)
+    m.dayLabel.text = m.dayNames[dt.GetDayOfWeek()-1] + ", " + dt.GetDayOfMonth().ToStr() + " de " + m.monthNames[dt.GetMonth()-1]
+    m.timeLabel.text = formatTime(dt.GetHours()) + ":" + formatTime(dt.GetMinutes())
 end sub
 
-'--------------------------------------------------
-' Atualiza cronômetro decrescente
 sub updateCronometro()
     if m.cronometroAtivo and m.cronometroSegundos > 0 then
         m.cronometroSegundos = m.cronometroSegundos - 1
         mostrarCronometro()
+
         if m.cronometroSegundos = 0 then
             m.cronometroAtivo = false
+            tocarSom("pkg:/sounds/end.mp3")
         end if
     end if
 end sub
 
-'--------------------------------------------------
-' Desenha cronômetro (MM:SS)
 sub mostrarCronometro()
-    minutos  = Int(m.cronometroSegundos / 60)
+    minutos = Int(m.cronometroSegundos / 60)
     segundos = m.cronometroSegundos mod 60
     m.cronometroLabel.text = formatTime(minutos) + ":" + formatTime(segundos)
 end sub
 
-'--------------------------------------------------
 function formatTime(value as integer) as string
     if value < 10 then
         return "0" + value.ToStr()
@@ -108,50 +92,45 @@ function formatTime(value as integer) as string
     end if
 end function
 
-'--------------------------------------------------
-' Trata controle remoto
-function onKeyEvent(key as String, press as Boolean) as Boolean
-    if not press then
-        return false
-    end if
+function onKeyEvent(key as string, press as boolean) as boolean
+    if not press then return false
 
-    if key = "right" then
-        if m.botaoIndiceAtual < m.botaoLista.count() - 1 then
-            m.botaoIndiceAtual = m.botaoIndiceAtual + 1
-            m.botaoLista[m.botaoIndiceAtual].setFocus(true)
-        end if
+    if key = "right" and m.botaoIndiceAtual < m.botaoLista.count() - 1 then
+        m.botaoIndiceAtual++
+        m.botaoLista[m.botaoIndiceAtual].setFocus(true)
+        atualizaEstiloBotoes()
         return true
-    else if key = "left" then
-        if m.botaoIndiceAtual > 0 then
-            m.botaoIndiceAtual = m.botaoIndiceAtual - 1
-            m.botaoLista[m.botaoIndiceAtual].setFocus(true)
-        end if
+    else if key = "left" and m.botaoIndiceAtual > 0 then
+        m.botaoIndiceAtual--
+        m.botaoLista[m.botaoIndiceAtual].setFocus(true)
+        atualizaEstiloBotoes()
         return true
     else if key = "OK" then
-        bot = m.botaoLista[m.botaoIndiceAtual]
-        bot.color = "0xFF88FF88"  ' verde claro flash
+        botao = m.botaoLista[m.botaoIndiceAtual]
+        botao.color = "0xFF88FF88"
         m.clickTimer.control = "start"
-        handleButtonAction(bot.id)
+        handleButtonAction(botao.id)
+        atualizaEstiloBotoes()
         return true
     end if
 
     return false
 end function
 
-'--------------------------------------------------
-sub handleButtonAction(id as String)
+sub handleButtonAction(id as string)
     if id = "btnPlay" then
         if m.cronometroSegundos > 0 then
             m.cronometroAtivo = true
+            tocarSom("pkg:/sounds/start.mp3")
         end if
     else if id = "btnPause" then
         m.cronometroAtivo = false
     else if id = "btnAdd3" then
-        m.cronometroSegundos = m.cronometroSegundos + 3
+        m.cronometroSegundos += 3
     else if id = "btnAdd5" then
-        m.cronometroSegundos = m.cronometroSegundos + 5
+        m.cronometroSegundos += 5
     else if id = "btnAdd10" then
-        m.cronometroSegundos = m.cronometroSegundos + 10
+        m.cronometroSegundos += 10
     else if id = "btnReset" then
         m.cronometroAtivo = false
         m.cronometroSegundos = 0
@@ -159,24 +138,28 @@ sub handleButtonAction(id as String)
     mostrarCronometro()
 end sub
 
-'--------------------------------------------------
 sub onClickTimer()
-    onBotaoFocoMudou()
+    atualizaEstiloBotoes()
 end sub
 
-'--------------------------------------------------
-sub onBotaoFocoMudou()
-    for each bot in m.botaoLista
-        if bot.focusPercent = 1.0 then
-            bot.color = "0xFFF99BFF"  ' amarelo
-            bot.scale = [1.15, 1.15]
+sub atualizaEstiloBotoes()
+    for i = 0 to m.botaoLista.count() - 1
+        botao = m.botaoLista[i]
+        if i = m.botaoIndiceAtual then
+            botao.color = "0xFFF99BFF"
+            botao.scale = [1.15, 1.15]
         else
-            bot.scale = [1.0, 1.0]
-            if bot.id = "btnReset" then
-                bot.color = "0xFFAAAAFF"
+            botao.scale = [1.0, 1.0]
+            if botao.id = "btnReset" then
+                botao.color = "0xFFAAAAFF"
             else
-                bot.color = "0xDDDDDDFF"
+                botao.color = "0xDDDDDDFF"
             end if
         end if
     end for
+end sub
+
+sub tocarSom(caminho as string)
+    m.audio.uri = caminho
+    m.audio.control = "play"
 end sub
