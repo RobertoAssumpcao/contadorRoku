@@ -4,23 +4,25 @@ sub init()
     m.tituloAcademiaLabel = m.top.findNode("tituloAcademiaLabel")
     m.dayLabel = m.top.findNode("dayLabel")
     m.timeLabel = m.top.findNode("timeLabel")
+
+    ' Set font sizes
     m.tituloAcademiaLabel.font.size = 43
     m.dayLabel.font.size = 41
     m.timeLabel.font.size = 40
 
-    m.dayNames = ["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"]
-    m.monthNames = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"]
+    m.dayNames = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
+    m.monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 
-    ' Cria e configura o timer
+    ' Create and configure the timer
     m.timer = CreateObject("roSGNode", "Timer")
-    m.timer.duration = 1 ' a cada 1 segundo
+    m.timer.duration = 1 ' every 1 second
     m.timer.repeat = true
     m.timer.control = "start"
     m.timer.observeField("fire", "updateDateTime")
 
-    m.top.appendChild(m.timer) ' MUITO IMPORTANTE
+    m.top.appendChild(m.timer) ' VERY IMPORTANT
 
-    updateDateTime() ' Atualiza imediatamente ao iniciar
+    updateDateTime() ' Update immediately on start
 end sub
 
 sub updateDateTime()
@@ -40,7 +42,7 @@ sub updateDateTime()
     m.timeLabel.text = formatTime(hora) + ":" + formatTime(minuto) + ":" + formatTime(segundo)
 end sub
 
-function formatTime(value as Integer) as String
+function formatTime(value as integer) as string
     if value < 10
         return "0" + value.ToStr()
     else

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="Contador" extends="Scene">
   <children>
-    <!-- Fundo full-screen -->
+    <!-- Fundo -->
     <Poster width="1280" height="720" uri="pkg:/images/fundojj.jpg" />
 
-    <!-- Grupo com padding de 40px (Safe Area) -->
+    <!-- Área segura -->
     <Group id="SafeArea" width="1200" height="640" translation="[40, 40]">
-      <!-- 1) Título: fonte gigante -->
-      <Label id="tituloAcademiaLabel" text="Centro de Treinamento GFTeam - Praça das Nações" width="1160" height="160" horizAlign="left" vertAlign="top" translation="[0, 0]" color="0x000000FF"/>
 
-      <!-- 2) Dia da semana + data: maior e colado embaixo -->
-      <Label id="dayLabel" text="Terça-feira, 21 de Maio" width="800" height="120" horizAlign="left" vertAlign="top" translation="[0, 40]" color="0x333333FF"/>
+      <!-- 1) Relógio bem grande no topo -->
+      <Label id="timeLabel" text="00:00:00" width="1200" height="120" horizAlign="center" vertAlign="top" translation="[0, 0]" color="0x000000FF" font="font:ExtraLargeBoldSystemFont" />
 
-      <!-- 3) Relógio digital: fonte alta para visibilidade -->
-      <Label id="timeLabel" text="23:22:32" width="400" height="100" horizAlign="left" vertAlign="top" translation="[0, 80]" color="0x000000FF"/>
+      <!-- 2) Nome da academia -->
+      <Label id="tituloAcademiaLabel" text="Centro de Treinamento GFTeam - Praça das Nações" width="1160" height="100" horizAlign="center" vertAlign="top" translation="[0, 100]" color="0x000000FF" font="font:LargeBoldSystemFont" />
 
-      <!-- 4) Logo no canto direito da SafeArea -->
-      <Poster id="icon" uri="pkg:/images/LOGOJOAOVERAS.png" width="200" height="200" horizAlign="left" vertAlign="top" translation="[1000, 0]" />
+      <!-- 3) Dia da semana e data -->
+      <Label id="dayLabel" text="Terça-feira, 21 de Maio" width="1000" height="80" horizAlign="center" vertAlign="top" translation="[0, 170]" color="0x333333FF" font="font:MediumBoldSystemFont" />
+
+      <!-- 4) Logo JV -->
+      <Poster id="icon" uri="pkg:/images/LOGOJOAOVERAS.png" width="150" height="150" translation="[1020, 440]" />
     </Group>
   </children>
 
