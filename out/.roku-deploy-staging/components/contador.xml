@@ -2,7 +2,7 @@
 <component name="Contador" extends="Scene">
   <children>
     <!-- Fundo full-screen -->
-    <Poster width="1280" height="720" uri="pkg:/images/fundojj1.jpg" />
+    <Poster width="1280" height="720" uri="pkg:/images/fundojj.jpg" />
 
     <!-- Grupo com padding de 40px (Safe Area) -->
     <Group id="SafeArea" width="1200" height="640" translation="[40, 40]">
