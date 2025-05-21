@@ -5,7 +5,7 @@
     <Label id="dayLabel" text="---" width="1280" height="720" horizAlign="left" vertAlign="top" translation="[50, 50]" color="0x000000FF" />
     <Poster id="icon" uri="pkg:/images/LOGOJOAOVERAS.png" width="180" height="180" translation="[1000, 50]" horizAlign="right" vertAlign="top" />
     <Label id="timeLabel" text="00:00:00" width="400" height="100" horizAlign="left" vertAlign="top" translation="[50, 120]" color="0x000000FF" />
-    <Label id="tituloAcademia" text="Centro de treinamento Gfteam praça das nações" width="500" height="100" horizAlign="left" vertAlign="top" translation="[50, 200]" color="0x000000FF"/>
+    <Label id="tituloAcademia" text="Centro de treinamento Gfteam praça das nações" width="400" height="100" horizAlign="left" vertAlign="top" translation="[50, 150]" color="0x000000FF"/>
   </children>
 
   <!-- Referência ao script externo com a lógica -->
