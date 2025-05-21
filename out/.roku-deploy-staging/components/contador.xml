@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="Contador" extends="Scene">
   <children>
-    <Rectangle width="1280" height="720" color="0xFFFFFFFF" />
-    <Label id="dayLabel" text="---" width="1280" height="720" horizAlign="left" vertAlign="top" translation="[50, 50]" color="0x000000FF" />
-    <Poster id="icon" uri="pkg:/images/LOGOJOAOVERAS.png" width="180" height="180" translation="[1000, 50]" horizAlign="right" vertAlign="top" />
-    <Label id="timeLabel" text="00:00:00" width="400" height="100" horizAlign="left" vertAlign="top" translation="[50, 120]" color="0x000000FF" />
-    <Label id="tituloAcademia" text="Centro de treinamento Gfteam praça das nações" width="400" height="100" horizAlign="left" vertAlign="top" translation="[50, 150]" color="0x000000FF"/>
+    <!-- Fundo full-screen -->
+    <Rectangle width="1280" height="720" color="0xF5F5F5FF" />
+
+    <!-- Grupo com padding de 40px (Safe Area) -->
+    <Group id="SafeArea" width="1200" height="640" translation="[40, 40]">
+      <!-- 1) Título: fonte gigante -->
+      <Label id="tituloAcademiaLabel" text="Centro de Treinamento GFTeam - Praça das Nações" width="1160" height="160" horizAlign="left" vertAlign="top" translation="[0, 0]" color="0x000000FF"/>
+
+      <!-- 2) Dia da semana + data: maior e colado embaixo -->
+      <Label id="dayLabel" text="Terça-feira, 21 de Maio" width="800" height="120" horizAlign="left" vertAlign="top" translation="[0, 30]" color="0x333333FF"/>
+
+      <!-- 3) Relógio digital: fonte alta para visibilidade -->
+      <Label id="timeLabel" text="23:22:32" width="400" height="100" horizAlign="left" vertAlign="top" translation="[0, 40]" color="0x000000FF"/>
+
+      <!-- 4) Logo no canto direito da SafeArea -->
+      <Poster id="icon" uri="pkg:/images/LOGOJOAOVERAS.png" width="200" height="200" horizAlign="left" vertAlign="top" translation="[1000, 0]" />
+    </Group>
   </children>
 
-  <!-- Referência ao script externo com a lógica -->
   <script type="text/brightscript" uri="pkg:/source/contador.brs" />
 </component>
