@@ -2,7 +2,7 @@
 <component name="Contador" extends="Scene">
   <children>
     <!-- Fundo full-screen -->
-    <Rectangle width="1280" height="720" color="0xF5F5F5FF" />
+    <Poster width="1280" height="720" uri="pkg:/images/fundojj.jpg" />
 
     <!-- Grupo com padding de 40px (Safe Area) -->
     <Group id="SafeArea" width="1200" height="640" translation="[40, 40]">
@@ -13,7 +13,7 @@
       <Label id="dayLabel" text="Terça-feira, 21 de Maio" width="800" height="120" horizAlign="left" vertAlign="top" translation="[0, 30]" color="0x333333FF"/>
 
       <!-- 3) Relógio digital: fonte alta para visibilidade -->
-      <Label id="timeLabel" text="23:22:32" width="400" height="100" horizAlign="left" vertAlign="top" translation="[0, 40]" color="0x000000FF"/>
+      <Label id="timeLabel" text="23:22:32" width="400" height="100" horizAlign="left" vertAlign="top" translation="[0, 60]" color="0x000000FF"/>
 
       <!-- 4) Logo no canto direito da SafeArea -->
       <Poster id="icon" uri="pkg:/images/LOGOJOAOVERAS.png" width="200" height="200" horizAlign="left" vertAlign="top" translation="[1000, 0]" />
