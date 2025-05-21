@@ -5,6 +5,8 @@ sub init()
     m.dayLabel = m.top.findNode("dayLabel")
     m.timeLabel = m.top.findNode("timeLabel")
     m.tituloAcademiaLabel.font.size = 43
+    m.tituloAcademiaLabel.font.family = "Roboto"
+    m.tituloAcademiaLabel.font.weight = "bold"
     m.dayLabel.font.size = 38
     m.timeLabel.font.size = 38
 
