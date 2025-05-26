@@ -3,8 +3,7 @@
   <children>
     <Poster width="1280" height="720" uri="pkg:/images/fundojj.jpg" scaleType="scaleToFill" />
     <LayoutGroup id="mainLayout" layoutDirection="vert" itemSpacings="[20]" vertAlign="center" horizAlign="center" translation="[60, 40]">
-      <Label id="timeLabel" text="00:00" horizAlign="center" font="font:ExtraLargeBoldSystemFont" color="0x000000FF" translation="[0, 200]"/>
-
+      <Label id="timeLabel" text="00:00" horizAlign="center" size="120" color="0x000000FF"/>
       <Label id="tituloAcademiaLabel" text="Centro GFTeam" horizAlign="center" font="font:LargeBoldSystemFont" color="0x000000FF"/>
 
       <Label id="dayLabel" text="Segunda-feira, 1 de Janeiro" horizAlign="center" font="font:MediumBoldSystemFont" color="0x333333FF"/>
