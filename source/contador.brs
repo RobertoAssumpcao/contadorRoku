@@ -1,10 +1,5 @@
-'**************************************************************
-'  Contador / Cronômetro – versão sem ? perdido
-'**************************************************************
-
 sub init()
     m.top.setFocus(true)
-
     '--- Labels
     m.timeLabel = m.top.findNode("timeLabel")
     m.tituloAcademiaLabel = m.top.findNode("tituloAcademiaLabel")

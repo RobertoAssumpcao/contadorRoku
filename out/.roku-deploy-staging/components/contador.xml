@@ -1,56 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component name="Contador" extends="Scene">
   <children>
-    <Poster
-      width="1920"
-      height="1080"
-      uri="pkg:/images/fundojj.jpg" />
+    <Poster width="1280" height="720" uri="pkg:/images/fundojj.jpg" scaleType="scaleToFill" />
+    <LayoutGroup id="mainLayout" layoutDirection="vert" itemSpacings="[20]" vertAlign="center" horizAlign="center" translation="[60, 40]">
+      <Label id="timeLabel" text="00:00" horizAlign="center" font="font:ExtraLargeBoldSystemFont" color="0x000000FF" translation="[0, 200]"/>
 
-    <LayoutGroup
-      id="mainLayout"
-      layoutDirection="vert"
-      itemSpacings="[20]"
-      vertAlign="center"
-      horizAlign="center"
-      translation="[0, 0]"
-      width="1920"
-      height="1080">
+      <Label id="tituloAcademiaLabel" text="Centro GFTeam" horizAlign="center" font="font:LargeBoldSystemFont" color="0x000000FF"/>
 
-      <Label
-        id="timeLabel"
-        text="00:00"
-        horizAlign="center"
-        font="font:ExtraLargeBoldSystemFont"
-        color="0x000000FF"/>
+      <Label id="dayLabel" text="Segunda-feira, 1 de Janeiro" horizAlign="center" font="font:MediumBoldSystemFont" color="0x333333FF"/>
 
-      <Label
-        id="tituloAcademiaLabel"
-        text="Centro GFTeam"
-        horizAlign="center"
-        font="font:LargeBoldSystemFont"
-        color="0x000000FF"/>
+      <Label id="cronometroLabel" text="00:00" horizAlign="center" font="font:ExtraLargeBoldSystemFont" color="0xFF0000FF" height="100"/>
 
-      <Label
-        id="dayLabel"
-        text="Segunda-feira, 1 de Janeiro"
-        horizAlign="center"
-        font="font:MediumBoldSystemFont"
-        color="0x333333FF"/>
-
-      <Label
-        id="cronometroLabel"
-        text="00:00"
-        horizAlign="center"
-        font="font:ExtraLargeBoldSystemFont"
-        color="0xFF0000FF"
-        height="100"/>
-
-      <LayoutGroup
-        id="buttonsLayout"
-        layoutDirection="horiz"
-        itemSpacings="[10]"
-        horizAlign="center"
-        height="60">
+      <LayoutGroup id="buttonsLayout" layoutDirection="horiz" itemSpacings="[10]" horizAlign="center" height="60">
 
         <Rectangle id="btnPlay" color="0xDDDDDDFF" focusable="true" width="120" height="60">
           <Label text="Play" horizAlign="center" vertAlign="center" width="120" height="60"/>
@@ -72,13 +33,7 @@
         </Rectangle>
       </LayoutGroup>
 
-      <Poster
-        id="icon"
-        uri="pkg:/images/LOGOJOAOVERAS.png"
-        width="150"
-        height="150"
-        horizAlign="right"
-        vertAlign="bottom" />
+      <Poster id="icon" uri="pkg:/images/LOGOJOAOVERAS.png" width="150" height="150" horizAlign="right" vertAlign="bottom" />
 
     </LayoutGroup>
   </children>
