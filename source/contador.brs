@@ -2,7 +2,9 @@ sub init()
     m.top.setFocus(true)
     '--- Labels
     m.timeLabel = m.top.findNode("timeLabel")
+    m.timeLabel.font.size = 100
     m.tituloAcademiaLabel = m.top.findNode("tituloAcademiaLabel")
+    m.tituloAcademiaLabel.font.size = 40
     m.dayLabel = m.top.findNode("dayLabel")
     m.cronometroLabel = m.top.findNode("cronometroLabel")
 
