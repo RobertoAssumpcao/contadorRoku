@@ -4,5 +4,7 @@
   <children>
     <Rectangle id="fundo" color="0x0d0d0d" />
     <Label id="relogio" color="0xffffff" />
+    <Label id="tituloSessao" color="0xffffff" />
+    <Label id="data" color="0x333333" />
   </children>
 </component>
