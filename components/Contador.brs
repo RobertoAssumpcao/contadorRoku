@@ -22,17 +22,17 @@ sub init()
   altura = m.top.boundingRect().height
   ' Configuração inicial do cronômetro
   m.cronometro.width = largura
-  m.cronometro.height = 0.15 * altura
+  m.cronometro.height = 0.20 * altura ' aumentado de 0.15 para 0.20
   m.cronometro.horizAlign = "center"
   m.cronometro.vertAlign = "top"
-  m.cronometro.translation = [0, 0.55 * altura]
+  m.cronometro.translation = [0, 0.50 * altura] ' ajustado de 0.55 para 0.50
   m.cronometro.visible = true
   m.cronometro.font = "font:ExtraLargeBoldSystemFont"
-  cronometroFontSize = int(0.10 * altura)
-  if cronometroFontSize > 120 then
-    cronometroFontSize = 120
-  else if cronometroFontSize < 60 then
-    cronometroFontSize = 60
+  cronometroFontSize = int(0.13 * altura) ' aumentado de 0.10 para 0.13
+  if cronometroFontSize > 140 then
+    cronometroFontSize = 140 ' aumentado de 120 para 140
+  else if cronometroFontSize < 70 then
+    cronometroFontSize = 70 ' aumentado de 60 para 70
   end if
   m.cronometro.font.size = cronometroFontSize
   m.cronometro.text = "00:00"
@@ -40,35 +40,36 @@ sub init()
   m.fundo.height = altura
   m.fundo.visible = true
   m.relogio.width = largura
-  m.relogio.height = 0.15 * altura
+  ' Aumenta mais o tamanho da hora de forma responsiva
+  m.relogio.height = 0.18 * altura
   m.relogio.horizAlign = "center"
   m.relogio.vertAlign = "top"
   m.relogio.translation = [0, 0.10 * altura]
   m.relogio.visible = true
   m.relogio.font = "font:ExtraLargeBoldSystemFont"
-  ' Responsividade: 120 px padrão, mas diminui proporcionalmente em telas pequenas, nunca menor que 60 px
-  relogioFontSize = int(0.10 * altura)
-  if relogioFontSize > 120 then
-    relogioFontSize = 120
-  else if relogioFontSize < 60 then
-    relogioFontSize = 60
+  relogioFontSize = int(0.14 * altura)
+  if relogioFontSize > 160 then
+    relogioFontSize = 160
+  else if relogioFontSize < 80 then
+    relogioFontSize = 80
   end if
   m.relogio.font.size = relogioFontSize
   atualizaRelogio()
   ' Responsividade do título
   tituloLargura = 0.90 * largura
-  tituloAltura = 0.15 * altura
-  tituloFontSize = int(0.07 * altura)
-  if tituloFontSize > 64 then
-    tituloFontSize = 64
-  else if tituloFontSize < 32 then
-    tituloFontSize = 32
+  ' Diminui a altura do título para ficar mais próximo do relógio, mantendo responsividade
+  tituloAltura = 0.10 * altura
+  tituloFontSize = int(0.06 * altura)
+  if tituloFontSize > 48 then
+    tituloFontSize = 48
+  else if tituloFontSize < 24 then
+    tituloFontSize = 24
   end if
   m.tituloSessao.width = tituloLargura
   m.tituloSessao.height = tituloAltura
   m.tituloSessao.horizAlign = "center"
   m.tituloSessao.vertAlign = "top"
-  m.tituloSessao.translation = [0.05 * largura, 0.27 * altura]
+  m.tituloSessao.translation = [0.05 * largura, (0.10 * altura) + relogioFontSize + (0.03 * altura)]
   m.tituloSessao.visible = true
   m.tituloSessao.font = "font:LargeBoldSystemFont"
   m.tituloSessao.font.size = tituloFontSize
@@ -155,17 +156,17 @@ sub onVisibleChange()
     altura = m.top.boundingRect().height
     ' Configuração inicial do cronômetro
     m.cronometro.width = largura
-    m.cronometro.height = 0.15 * altura
+    m.cronometro.height = 0.20 * altura ' aumentado de 0.15 para 0.20
     m.cronometro.horizAlign = "center"
     m.cronometro.vertAlign = "top"
-    m.cronometro.translation = [0, 0.55 * altura]
+    m.cronometro.translation = [0, 0.50 * altura] ' ajustado de 0.55 para 0.50
     m.cronometro.visible = true
     m.cronometro.font = "font:ExtraLargeBoldSystemFont"
-    cronometroFontSize = int(0.10 * altura)
-    if cronometroFontSize > 120 then
-      cronometroFontSize = 120
-    else if cronometroFontSize < 60 then
-      cronometroFontSize = 60
+    cronometroFontSize = int(0.13 * altura) ' aumentado de 0.10 para 0.13
+    if cronometroFontSize > 140 then
+      cronometroFontSize = 140 ' aumentado de 120 para 140
+    else if cronometroFontSize < 70 then
+      cronometroFontSize = 70 ' aumentado de 60 para 70
     end if
     m.cronometro.font.size = cronometroFontSize
     if m.cronometroTempo = invalid then
@@ -186,35 +187,36 @@ sub onVisibleChange()
     m.fundo.height = altura
     m.fundo.visible = true
     m.relogio.width = largura
-    m.relogio.height = 0.15 * altura
+    ' Aumenta mais o tamanho da hora de forma responsiva
+    m.relogio.height = 0.18 * altura
     m.relogio.horizAlign = "center"
     m.relogio.vertAlign = "top"
     m.relogio.translation = [0, 0.10 * altura]
     m.relogio.visible = true
     m.relogio.font = "font:ExtraLargeBoldSystemFont"
-    ' Responsividade: 120 px padrão, mas diminui proporcionalmente em telas pequenas, nunca menor que 60 px
-    relogioFontSize = int(0.10 * altura)
-    if relogioFontSize > 120 then
-      relogioFontSize = 120
-    else if relogioFontSize < 60 then
-      relogioFontSize = 60
+    relogioFontSize = int(0.14 * altura)
+    if relogioFontSize > 160 then
+      relogioFontSize = 160
+    else if relogioFontSize < 80 then
+      relogioFontSize = 80
     end if
     m.relogio.font.size = relogioFontSize
     atualizaRelogio()
     ' Responsividade do título
     tituloLargura = 0.90 * largura
-    tituloAltura = 0.15 * altura
-    tituloFontSize = int(0.07 * altura)
-    if tituloFontSize > 64 then
-      tituloFontSize = 64
-    else if tituloFontSize < 32 then
-      tituloFontSize = 32
+    ' Diminui a altura do título para ficar mais próximo do relógio, mantendo responsividade
+    tituloAltura = 0.10 * altura
+    tituloFontSize = int(0.06 * altura)
+    if tituloFontSize > 48 then
+      tituloFontSize = 48
+    else if tituloFontSize < 24 then
+      tituloFontSize = 24
     end if
     m.tituloSessao.width = tituloLargura
     m.tituloSessao.height = tituloAltura
     m.tituloSessao.horizAlign = "center"
     m.tituloSessao.vertAlign = "top"
-    m.tituloSessao.translation = [0.05 * largura, 0.27 * altura]
+    m.tituloSessao.translation = [0.05 * largura, (0.10 * altura) + relogioFontSize + (0.03 * altura)]
     m.tituloSessao.visible = true
     m.tituloSessao.font = "font:LargeBoldSystemFont"
     m.tituloSessao.font.size = tituloFontSize
