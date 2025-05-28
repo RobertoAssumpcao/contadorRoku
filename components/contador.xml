@@ -2,10 +2,10 @@
 <component name="Contador" extends="Scene">
   <script type="text/brightscript" uri="pkg:/components/Contador.brs" />
   <children>
-    <Rectangle id="fundo" color="0x1A2233" />
-    <Label id="relogio" color="0xffffff" />
-    <Label id="tituloSessao" color="0xffffff" />
-    <Label id="data" color="0x888888" />
-    <Label id="cronometro" color="0xFF0000" />
+    <Rectangle id="fundo" color="0xECEFF1FF" /> <!-- Cinza azulado bem claro -->
+    <Label id="relogio" color="0x263238FF" /> <!-- Cinza azulado bem escuro -->
+    <Label id="tituloSessao" color="0x263238FF" /> <!-- Cinza azulado bem escuro -->
+    <Label id="data" color="0x546E7AFF" /> <!-- Cinza azulado médio -->
+    <Label id="cronometro" color="0xD32F2FFF" /> <!-- Vermelho -->
   </children>
 </component>
