@@ -16,9 +16,26 @@ sub init()
   m.fundo = m.top.findNode("fundo")
   m.relogio = m.top.findNode("relogio")
   m.tituloSessao = m.top.findNode("tituloSessao")
-  m.data = m.top.findNode("tituloSessao")
+  m.data = m.top.findNode("data")
+  m.cronometro = m.top.findNode("cronometro")
   largura = m.top.boundingRect().width
   altura = m.top.boundingRect().height
+  ' Configuração inicial do cronômetro
+  m.cronometro.width = largura
+  m.cronometro.height = 0.15 * altura
+  m.cronometro.horizAlign = "center"
+  m.cronometro.vertAlign = "top"
+  m.cronometro.translation = [0, 0.55 * altura]
+  m.cronometro.visible = true
+  m.cronometro.font = "font:ExtraLargeBoldSystemFont"
+  cronometroFontSize = int(0.10 * altura)
+  if cronometroFontSize > 120 then
+    cronometroFontSize = 120
+  else if cronometroFontSize < 60 then
+    cronometroFontSize = 60
+  end if
+  m.cronometro.font.size = cronometroFontSize
+  m.cronometro.text = "00:00"
   m.fundo.width = largura
   m.fundo.height = altura
   m.fundo.visible = true
@@ -56,10 +73,12 @@ sub init()
   m.tituloSessao.font = "font:LargeBoldSystemFont"
   m.tituloSessao.font.size = tituloFontSize
   m.tituloSessao.text = "Centro de treinamento GfTeam praça das nações"
+  ' Atualiza a data ao iniciar
+  atualizaData()
   m.timer = createObject("roSGNode", "Timer")
   m.timer.duration = 1
   m.timer.repeat = true
-  m.timer.observeField("fire", "atualizaRelogio")
+  m.timer.observeField("fire", "atualizaRelogioECronometro")
   m.top.appendChild(m.timer)
   m.timer.control = "start"
 end sub
@@ -77,6 +96,38 @@ sub atualizaRelogio()
   minuto = agora.GetMinutes().ToStr()
   if minuto.len() = 1 then minuto = "0" + minuto
   m.relogio.text = hora + ":" + minuto
+end sub
+
+' Atualiza o texto da data na interface com o dia da semana, dia e mês atuais.
+sub atualizaData()
+  largura = m.top.boundingRect().width
+  altura = m.top.boundingRect().height
+  dataLargura = 0.90 * largura
+  dataAltura = 0.10 * altura
+  ' Sempre 36px, mas nunca menor que 20px em telas pequenas
+  dataFontSize = 36
+  if int(0.045 * altura) < 20 then
+    dataFontSize = 20
+  end if
+  m.data = m.top.findNode("data")
+  m.data.width = dataLargura
+  m.data.height = dataAltura
+  m.data.horizAlign = "center"
+  m.data.vertAlign = "top"
+  m.data.translation = [0.05 * largura, 0.40 * altura]
+  m.data.visible = true
+  m.data.font = "font:MediumBoldSystemFont"
+  m.data.font.size = dataFontSize
+  ' Monta a data: semana, dia e mês
+  agora = CreateObject("roDateTime")
+  agora.ToLocalTime()
+  semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
+  meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+  diaSemana = semana[agora.GetDayOfWeek()]
+  dia = agora.GetDayOfMonth().ToStr()
+  if dia.len() = 1 then dia = "0" + dia
+  mes = meses[agora.GetMonth() - 1]
+  m.data.text = diaSemana + ", " + dia + " de " + mes
 end sub
 
 '**************************************************************
@@ -98,6 +149,36 @@ sub onVisibleChange()
     m.fundo = m.top.findNode("fundo")
     m.relogio = m.top.findNode("relogio")
     m.tituloSessao = m.top.findNode("tituloSessao")
+    m.data = m.top.findNode("data")
+    m.cronometro = m.top.findNode("cronometro")
+    largura = m.top.boundingRect().width
+    altura = m.top.boundingRect().height
+    ' Configuração inicial do cronômetro
+    m.cronometro.width = largura
+    m.cronometro.height = 0.15 * altura
+    m.cronometro.horizAlign = "center"
+    m.cronometro.vertAlign = "top"
+    m.cronometro.translation = [0, 0.55 * altura]
+    m.cronometro.visible = true
+    m.cronometro.font = "font:ExtraLargeBoldSystemFont"
+    cronometroFontSize = int(0.10 * altura)
+    if cronometroFontSize > 120 then
+      cronometroFontSize = 120
+    else if cronometroFontSize < 60 then
+      cronometroFontSize = 60
+    end if
+    m.cronometro.font.size = cronometroFontSize
+    if m.cronometroTempo = invalid then
+      m.cronometro.text = "00:00"
+    else
+      minutos = int(m.cronometroTempo / 60)
+      segundos = m.cronometroTempo mod 60
+      minStr = minutos.ToStr()
+      if minStr.len() = 1 then minStr = "0" + minStr
+      segStr = segundos.ToStr()
+      if segStr.len() = 1 then segStr = "0" + segStr
+      m.cronometro.text = minStr + ":" + segStr
+    end if
     m.top.setFocus(true)
     largura = m.top.boundingRect().width
     altura = m.top.boundingRect().height
@@ -138,5 +219,7 @@ sub onVisibleChange()
     m.tituloSessao.font = "font:LargeBoldSystemFont"
     m.tituloSessao.font.size = tituloFontSize
     m.tituloSessao.text = "Centro de treinamento GfTeam" + chr(10) + "praça das nações"
+    ' Atualiza a data ao ficar visível
+    atualizaData()
   end if
 end sub

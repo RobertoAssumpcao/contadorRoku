@@ -6,5 +6,6 @@
     <Label id="relogio" color="0xffffff" />
     <Label id="tituloSessao" color="0xffffff" />
     <Label id="data" color="0x333333" />
+    <Label id="cronometro" color="0xFF0000" />
   </children>
 </component>
