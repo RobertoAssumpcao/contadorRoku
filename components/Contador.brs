@@ -18,6 +18,7 @@ sub init()
   m.tituloSessao = m.top.findNode("tituloSessao")
   m.data = m.top.findNode("data")
   m.cronometro = m.top.findNode("cronometro")
+  m.playButton = m.top.findNode("playButton")
   largura = m.top.boundingRect().width
   altura = m.top.boundingRect().height
   ' Configuração inicial do cronômetro
@@ -152,6 +153,7 @@ sub onVisibleChange()
     m.tituloSessao = m.top.findNode("tituloSessao")
     m.data = m.top.findNode("data")
     m.cronometro = m.top.findNode("cronometro")
+    m.playButton = m.top.findNode("playButton")
     largura = m.top.boundingRect().width
     altura = m.top.boundingRect().height
     ' Configuração inicial do cronômetro
@@ -223,5 +225,10 @@ sub onVisibleChange()
     m.tituloSessao.text = "Centro de treinamento GfTeam" + chr(10) + "praça das nações"
     ' Atualiza a data ao ficar visível
     atualizaData()
+    m.playButton.width = 0.20 * largura
+    m.playButton.height = 0.10 * altura
+    ' Corrige a posição do botão Play para ficar abaixo do cronômetro
+    m.playButton.translation = [0, m.cronometro.translation[1] + m.cronometro.height + 0.05 * altura]
+    m.playButton.visible = true
   end if
 end sub
