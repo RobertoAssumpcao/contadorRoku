@@ -2,7 +2,7 @@
 <component name="Contador" extends="Scene">
   <script type="text/brightscript" uri="pkg:/components/Contador.brs" />
   <children>
-    <Poster id="fundo" uri="pkg:/images/LOGOJOAOVERASOpac.png"/>
+    <Poster id="fundo" uri="pkg:/images/LOGOJOAOVERAS_resized_1280x720.png"/>
 
     <Label id="relogio" color="0xFFFFFFFF" />
     <Label id="tituloSessao" color="0xE2E8F0FF" />

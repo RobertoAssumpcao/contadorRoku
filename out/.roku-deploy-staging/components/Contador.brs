@@ -74,8 +74,8 @@ sub configureSessionTitle(largura as integer, altura as integer)
   m.tituloSessao.translation = [0.05 * largura, (0.10 * altura) + int(0.14 * altura) + (0.03 * altura)]
   m.tituloSessao.visible = true
   m.tituloSessao.font = "font:LargeBoldSystemFont"
-  m.tituloSessao.font.size = clamp(int(0.06 * altura), 24, 48)
-  m.tituloSessao.text = "Centro de treinamento GfTeam praça das nações"
+  m.tituloSessao.font.size = clamp(int(0.045 * altura), 20, 42)
+  m.tituloSessao.text = "CENTRO DE TREINAMENTO GFTEAM PRAÇA DAS NAÇÕES"
 end sub
 
 sub configureDate(largura as integer, altura as integer)
