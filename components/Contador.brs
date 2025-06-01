@@ -101,8 +101,15 @@ sub configurePlayButton(largura as Integer, altura as Integer)
   m.playButton.horizAlign = "center"
   m.playButton.vertAlign = "top"
   m.playButton.translation = [0, 0.60 * altura]
+
+  ' Configurações específicas para o texto do botão
+  m.playButtonLabel.width = m.playButton.width
+  m.playButtonLabel.height = m.playButton.height
   m.playButtonLabel.horizAlign = "center"
   m.playButtonLabel.vertAlign = "center"
+  m.playButtonLabel.font = "font:MediumBoldSystemFont"
+  m.playButtonLabel.font.size = int(0.6 * m.playButton.height)
+  m.playButtonLabel.visible = true
 end sub
 
 ' Configura o cronômetro.
