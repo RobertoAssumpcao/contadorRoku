@@ -2,11 +2,13 @@
 <component name="Contador" extends="Scene">
   <script type="text/brightscript" uri="pkg:/components/Contador.brs" />
   <children>
-    <Rectangle id="fundo" color="0x1B1F23FF" /> <!-- Azul ainda mais escuro para um visual moderno -->
-    <Label id="relogio" color="0xFFFFFFFF" /> <!-- Branco para contraste -->
-    <Label id="tituloSessao" color="0xFFFFFFFF" /> <!-- Branco para contraste -->
-    <Label id="data" color="0xB0BEC5FF" /> <!-- Cinza claro para suavidade -->
-    <Label id="cronometro" color="0xFF3D00FF" /> <!-- Vermelho para destaque -->
-    <Button id="playButton" text="Play" color="0xFF3D00FF" backgroundColor="0x263238FF" /> <!-- Botão de Play ajustado para responsividade -->
+    <Rectangle id="fundo" color="0x1B1F23FF" />
+    <Label id="relogio" color="0xFFFFFFFF" />
+    <Label id="tituloSessao" color="0xFFFFFFFF" />
+    <Label id="data" color="0xB0BEC5FF" />
+    <Label id="cronometro" color="0xFF3D00FF" />
+    <Rectangle id="playButton" color="0xFFFFFFFF">
+      <Label id="playButtonLabel" text="Play" color="0xFF3D00FF" />
+    </Rectangle>
   </children>
 </component>

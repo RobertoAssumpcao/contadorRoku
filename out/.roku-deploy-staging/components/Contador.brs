@@ -2,8 +2,8 @@
 '* Inicializa a interface do componente Contador e o timer.
 '*
 '* - Observa os campos "visible" e "focusedChild" para mudanças.
-'* - Configura os nós de UI e inicializa o cronômetro e o relógio.
-'* - Define dimensões, alinhamento, fonte e visibilidade de cada nó.
+'* - Busca e configura os nós de UI: fundo, relogio e tituloSessao.
+'* - Define dimensões, alinhamento, fonte e visibilidade de cada nó com base no retângulo delimitador do componente.
 '* - Configura um timer repetitivo para atualizar o relógio a cada segundo.
 '* - Inicializa o texto do título da sessão.
 '*
@@ -11,129 +11,113 @@
 '* Sem valor de retorno.
 '***************************************************************
 sub init()
-  observeFields()
-  findNodes()
-  configureUI()
-  initializeTimer()
-end sub
-
-' Observa os campos "visible" e "focusedChild" para mudanças.
-sub observeFields()
   m.top.observeField("visible", "onVisibleChange")
   m.top.observeField("focusedChild", "onFocusChange")
-end sub
-
-' Busca e atribui referências aos nós de UI.
-sub findNodes()
   m.fundo = m.top.findNode("fundo")
   m.relogio = m.top.findNode("relogio")
   m.tituloSessao = m.top.findNode("tituloSessao")
   m.data = m.top.findNode("data")
   m.cronometro = m.top.findNode("cronometro")
   m.playButton = m.top.findNode("playButton")
-  m.playButtonLabel = m.top.findNode("playButtonLabel")
-end sub
-
-' Configura os elementos da interface do usuário.
-sub configureUI()
   largura = m.top.boundingRect().width
   altura = m.top.boundingRect().height
-
-  configureBackground(largura, altura)
-  configureClock(largura, altura)
-  configureSessionTitle(largura, altura)
-  configureDate(largura, altura)
-  configurePlayButton(largura, altura)
-  configureCronometer(largura, altura)
-end sub
-
-' Configura o fundo.
-sub configureBackground(largura as Integer, altura as Integer)
+  ' Configuração inicial do cronômetro
+  m.cronometro.width = largura
+  m.cronometro.height = 0.20 * altura ' aumentado de 0.15 para 0.20
+  m.cronometro.horizAlign = "center"
+  m.cronometro.vertAlign = "top"
+  m.cronometro.translation = [0, 0.50 * altura] ' ajustado de 0.55 para 0.50
+  m.cronometro.visible = true
+  m.cronometro.font = "font:ExtraLargeBoldSystemFont"
+  cronometroFontSize = int(0.13 * altura) ' aumentado de 0.10 para 0.13
+  if cronometroFontSize > 140 then
+    cronometroFontSize = 140 ' aumentado de 120 para 140
+  else if cronometroFontSize < 70 then
+    cronometroFontSize = 70 ' aumentado de 60 para 70
+  end if
+  m.cronometro.font.size = cronometroFontSize
+  m.cronometro.text = "00:00"
   m.fundo.width = largura
   m.fundo.height = altura
   m.fundo.visible = true
-end sub
-
-' Configura o relógio.
-sub configureClock(largura as Integer, altura as Integer)
   m.relogio.width = largura
+  ' Aumenta mais o tamanho da hora de forma responsiva
   m.relogio.height = 0.18 * altura
   m.relogio.horizAlign = "center"
   m.relogio.vertAlign = "top"
   m.relogio.translation = [0, 0.10 * altura]
   m.relogio.visible = true
   m.relogio.font = "font:ExtraLargeBoldSystemFont"
-  relogioFontSize = clamp(int(0.14 * altura), 80, 160)
+  relogioFontSize = int(0.14 * altura)
+  if relogioFontSize > 160 then
+    relogioFontSize = 160
+  else if relogioFontSize < 80 then
+    relogioFontSize = 80
+  end if
   m.relogio.font.size = relogioFontSize
   atualizaRelogio()
-end sub
-
-' Configura o título da sessão.
-sub configureSessionTitle(largura as Integer, altura as Integer)
-  m.tituloSessao.width = 0.90 * largura
-  m.tituloSessao.height = 0.10 * altura
+  ' Responsividade do título
+  tituloLargura = 0.90 * largura
+  ' Diminui a altura do título para ficar mais próximo do relógio, mantendo responsividade
+  tituloAltura = 0.10 * altura
+  tituloFontSize = int(0.06 * altura)
+  if tituloFontSize > 48 then
+    tituloFontSize = 48
+  else if tituloFontSize < 24 then
+    tituloFontSize = 24
+  end if
+  m.tituloSessao.width = tituloLargura
+  m.tituloSessao.height = tituloAltura
   m.tituloSessao.horizAlign = "center"
   m.tituloSessao.vertAlign = "top"
-  m.tituloSessao.translation = [0.05 * largura, (0.10 * altura) + int(0.14 * altura) + (0.03 * altura)]
+  m.tituloSessao.translation = [0.05 * largura, (0.10 * altura) + relogioFontSize + (0.03 * altura)]
   m.tituloSessao.visible = true
   m.tituloSessao.font = "font:LargeBoldSystemFont"
-  m.tituloSessao.font.size = clamp(int(0.06 * altura), 24, 48)
+  m.tituloSessao.font.size = tituloFontSize
   m.tituloSessao.text = "Centro de treinamento GfTeam praça das nações"
-end sub
-
-' Configura a data.
-sub configureDate(largura as Integer, altura as Integer)
-  m.data.width = 0.90 * largura
-  m.data.height = 0.10 * altura
-  m.data.horizAlign = "center"
-  m.data.vertAlign = "top"
-  m.data.translation = [0.05 * largura, 0.40 * altura]
-  m.data.visible = true
-  m.data.font = "font:MediumBoldSystemFont"
-  m.data.font.size = clamp(int(0.045 * altura), 20, 36)
+  ' Atualiza a data ao iniciar
   atualizaData()
-end sub
-
-' Configura o botão de play.
-sub configurePlayButton(largura as Integer, altura as Integer)
-  m.playButton.width = 0.25 * largura
-  m.playButton.height = 0.08 * altura
-  m.playButton.horizAlign = "center"
-  m.playButton.vertAlign = "top"
-  m.playButton.translation = [0, 0.60 * altura]
-  m.playButtonLabel.horizAlign = "center"
-  m.playButtonLabel.vertAlign = "center"
-end sub
-
-' Configura o cronômetro.
-sub configureCronometer(largura as Integer, altura as Integer)
-  m.cronometro.width = largura
-  m.cronometro.height = 0.20 * altura
-  m.cronometro.horizAlign = "center"
-  m.cronometro.vertAlign = "top"
-  m.cronometro.translation = [0, 0.50 * altura]
-  m.cronometro.visible = true
-  m.cronometro.font = "font:ExtraLargeBoldSystemFont"
-  m.cronometro.font.size = clamp(int(0.13 * altura), 70, 140)
-  m.cronometro.text = "00:00"
-end sub
-
-' Inicializa o timer para atualizar o relógio e o cronômetro.
-sub initializeTimer()
   m.timer = createObject("roSGNode", "Timer")
   m.timer.duration = 1
   m.timer.repeat = true
   m.timer.observeField("fire", "atualizaRelogioECronometro")
   m.top.appendChild(m.timer)
   m.timer.control = "start"
-end sub
+  ' Configuração do botão playButton
+  m.playButton.width = 0.25 * largura
+  m.playButton.height = 0.08 * altura
+  m.playButton.horizAlign = "center"
+  m.playButton.vertAlign = "top"
+  m.playButton.translation = [0, 0.60 * altura]
 
-' Função utilitária para limitar valores.
-function clamp(value as Integer, min as Integer, max as Integer) as Integer
-  if value > max then return max
-  if value < min then return min
-  return value
-end function
+  ' Configuração do cronômetro
+  m.cronometro.width = largura
+  m.cronometro.height = 0.20 * altura
+  m.cronometro.horizAlign = "center"
+  m.cronometro.vertAlign = "top"
+  m.cronometro.translation = [0, 0.50 * altura]
+
+  ' Configuração do relógio
+  m.relogio.width = largura
+  m.relogio.height = 0.18 * altura
+  m.relogio.horizAlign = "center"
+  m.relogio.vertAlign = "top"
+  m.relogio.translation = [0, 0.10 * altura]
+
+  ' Configuração do título da sessão
+  m.tituloSessao.width = 0.90 * largura
+  m.tituloSessao.height = 0.10 * altura
+  m.tituloSessao.horizAlign = "center"
+  m.tituloSessao.vertAlign = "top"
+  m.tituloSessao.translation = [0.05 * largura, (0.10 * altura) + relogioFontSize + (0.03 * altura)]
+
+  ' Configuração da data
+  m.data.width = 0.90 * largura
+  m.data.height = 0.10 * altura
+  m.data.horizAlign = "center"
+  m.data.vertAlign = "top"
+  m.data.translation = [0.05 * largura, 0.40 * altura]
+end sub
 
 ' Atualiza o texto do relógio na interface com a hora e minuto atuais do sistema.
 ' Obtém a data e hora atual, ajusta para o fuso horário local da TV,
@@ -204,7 +188,6 @@ sub onVisibleChange()
     m.data = m.top.findNode("data")
     m.cronometro = m.top.findNode("cronometro")
     m.playButton = m.top.findNode("playButton")
-    m.playButtonLabel = m.top.findNode("playButtonLabel")
     largura = m.top.boundingRect().width
     altura = m.top.boundingRect().height
     ' Configuração inicial do cronômetro
@@ -282,10 +265,6 @@ sub onVisibleChange()
     m.playButton.horizAlign = "center"
     m.playButton.vertAlign = "top"
     m.playButton.translation = [0, 0.60 * altura]
-
-    ' Configuração do texto do botão playButton
-    m.playButtonLabel.horizAlign = "center"
-    m.playButtonLabel.vertAlign = "center"
 
     ' Configuração do cronômetro
     m.cronometro.width = largura
