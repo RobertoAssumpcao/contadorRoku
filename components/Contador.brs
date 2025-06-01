@@ -24,6 +24,8 @@ sub findNodes()
   m.cronometro = m.top.findNode("cronometro")
   m.playButton = m.top.findNode("playButton")
   m.playButtonLabel = m.top.findNode("playButtonLabel")
+  m.pauseButton = m.top.findNode("pauseButton")
+  m.pauseButtonLabel = m.top.findNode("pauseButtonLabel")
 end sub
 
 sub configureUI()
@@ -35,17 +37,18 @@ sub configureUI()
   configureSessionTitle(largura, altura)
   configureDate(largura, altura)
   configurePlayButton(largura, altura)
+  configurePauseButton(largura, altura)
   configureCronometer(largura, altura)
 end sub
 
-sub configureBackground(largura as Integer, altura as Integer)
+sub configureBackground(largura as integer, altura as integer)
   print "[configureBackground] largura=" + largura.toStr() + ", altura=" + altura.toStr()
   m.fundo.width = largura
   m.fundo.height = altura
   m.fundo.visible = true
 end sub
 
-sub configureClock(largura as Integer, altura as Integer)
+sub configureClock(largura as integer, altura as integer)
   print "[configureClock]"
   m.relogio.width = largura
   m.relogio.height = 0.18 * altura
@@ -60,7 +63,7 @@ sub configureClock(largura as Integer, altura as Integer)
   atualizaRelogio()
 end sub
 
-sub configureSessionTitle(largura as Integer, altura as Integer)
+sub configureSessionTitle(largura as integer, altura as integer)
   print "[configureSessionTitle]"
   m.tituloSessao.width = 0.90 * largura
   m.tituloSessao.height = 0.10 * altura
@@ -73,7 +76,7 @@ sub configureSessionTitle(largura as Integer, altura as Integer)
   m.tituloSessao.text = "Centro de treinamento GfTeam praça das nações"
 end sub
 
-sub configureDate(largura as Integer, altura as Integer)
+sub configureDate(largura as integer, altura as integer)
   print "[configureDate]"
   m.data.width = 0.90 * largura
   m.data.height = 0.10 * altura
@@ -86,13 +89,13 @@ sub configureDate(largura as Integer, altura as Integer)
   atualizaData()
 end sub
 
-sub configurePlayButton(largura as Integer, altura as Integer)
+sub configurePlayButton(largura as integer, altura as integer)
   print "[configurePlayButton]"
   m.playButton.width = 0.15 * largura
   m.playButton.height = 0.08 * altura
   m.playButton.horizAlign = "left"
   m.playButton.vertAlign = "top"
-  m.playButton.translation = [0.05 * largura, 0.68 * altura]
+  m.playButton.translation = [0.20 * largura, 0.68 * altura]
   m.playButtonLabel.width = m.playButton.width
   m.playButtonLabel.height = m.playButton.height
   m.playButtonLabel.horizAlign = "center"
@@ -102,7 +105,23 @@ sub configurePlayButton(largura as Integer, altura as Integer)
   m.playButtonLabel.visible = true
 end sub
 
-sub configureCronometer(largura as Integer, altura as Integer)
+sub configurePauseButton(largura as integer, altura as integer)
+  print "[configurePauseButton]"
+  m.pauseButton.width = 0.15 * largura
+  m.pauseButton.height = 0.08 * altura
+  m.pauseButton.horizAlign = "left"
+  m.pauseButton.vertAlign = "top"
+  m.pauseButton.translation = [0.20 * largura + 0.15 * largura + 0.05 * largura, 0.68 * altura]
+  m.pauseButtonLabel.width = m.pauseButton.width
+  m.pauseButtonLabel.height = m.pauseButton.height
+  m.pauseButtonLabel.horizAlign = "center"
+  m.pauseButtonLabel.vertAlign = "center"
+  m.pauseButtonLabel.font = "font:MediumBoldSystemFont"
+  m.pauseButtonLabel.font.size = int(0.6 * m.pauseButton.height)
+  m.pauseButtonLabel.visible = true
+end sub
+
+sub configureCronometer(largura as integer, altura as integer)
   print "[configureCronometer]"
   m.cronometro.width = largura
   m.cronometro.height = 0.20 * altura
@@ -125,7 +144,7 @@ sub initializeTimer()
   m.timer.control = "start"
 end sub
 
-function clamp(value as Integer, min as Integer, max as Integer) as Integer
+function clamp(value as integer, min as integer, max as integer) as integer
   if value > max then return max
   if value < min then return min
   return value
