@@ -100,8 +100,6 @@ end function
 
 sub configureAllButtons(largura as float, altura as float)
   m.botoesGroup.layoutDirection = "horiz"
-  m.botoesGroup.horizAlign = "center"
-  m.botoesGroup.vertAlign = "top"
   m.botoesGroup.itemSpacings = [0.015 * largura]
   m.botoesGroup.translation = [100, 0.68 * altura]
 
