@@ -6,46 +6,41 @@
 
     <!-- Relógio -->
     <Label id="relogio" color="0x38BDF8FF" />
-    <!-- Azul neon claro -->
 
     <!-- Data -->
     <Label id="data" color="0x94A3B8FF" />
-    <!-- Azul acinzentado -->
 
     <!-- Título da Sessão -->
     <Label id="tituloSessao" color="0xE2E8F0FF" />
-    <!-- Cinza claro neutro -->
 
     <!-- Cronômetro -->
     <Label id="cronometro" color="0xF43F5EFF" />
-    <!-- Rosa avermelhado forte -->
 
-    <!-- Botão Play -->
-    <Rectangle id="playButton" color="0x1E293BFF">
-      <Label id="playButtonLabel" text="Play" color="0xF8FAFCFF" />
-    </Rectangle>
+    <!-- LayoutGroup contendo todos os botões (sem nenhuma propriedade estática) -->
+    <LayoutGroup id="botoesGroup">
+      <Rectangle id="playButton" color="0x1E293BFF" focusable="true">
+        <Label id="playButtonLabel" text="Play" color="0xF8FAFCFF" />
+      </Rectangle>
 
-    <!-- Botão Pause -->
-    <Rectangle id="pauseButton" color="0x1E293BFF">
-      <Label id="pauseButtonLabel" text="Pause" color="0xF8FAFCFF" />
-    </Rectangle>
+      <Rectangle id="pauseButton" color="0x1E293BFF" focusable="true">
+        <Label id="pauseButtonLabel" text="Pause" color="0xF8FAFCFF" />
+      </Rectangle>
 
-    <!-- Botão +1 -->
-    <Rectangle id="umButton" color="0x1E293BFF">
-      <Label id="umButtonLabel" text="+1" color="0xF8FAFCFF" />
-    </Rectangle>
+      <Rectangle id="umButton" color="0x1E293BFF" focusable="true">
+        <Label id="umButtonLabel" text="+1" color="0xF8FAFCFF" />
+      </Rectangle>
 
-    <!-- Botão +5 -->
-    <Rectangle id="cincoButton" color="0x1E293BFF">
-      <Label id="cincoButtonLabel" text="+5" color="0xF8FAFCFF" />
-    </Rectangle>
+      <Rectangle id="cincoButton" color="0x1E293BFF" focusable="true">
+        <Label id="cincoButtonLabel" text="+5" color="0xF8FAFCFF" />
+      </Rectangle>
 
-    <Rectangle id="dezButton" color="0x1E293BFF">
-      <Label id="dezButtonLabel" text="+10" color="0xF8FAFCFF" />
-    </Rectangle>
+      <Rectangle id="dezButton" color="0x1E293BFF" focusable="true">
+        <Label id="dezButtonLabel" text="+10" color="0xF8FAFCFF" />
+      </Rectangle>
 
-    <Rectangle id="ResetButton" color="0x1E293BFF">
-      <Label id="ResetButtonLabel" text="reset" color="0xF8FAFCFF" />
-    </Rectangle>
+      <Rectangle id="resetButton" color="0x1E293BFF" focusable="true">
+        <Label id="resetButtonLabel" text="Reset" color="0xF8FAFCFF" />
+      </Rectangle>
+    </LayoutGroup>
   </children>
 </component>
