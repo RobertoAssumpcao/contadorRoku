@@ -13,7 +13,6 @@ sub init()
     m.playButton, m.pauseButton, m.umButton,
     m.cincoButton, m.dezButton, m.resetButton
   ]
-
   m.botoes[m.botaoIndex].setFocus(true)
 end sub
 
@@ -72,6 +71,7 @@ sub configureClock(largura as integer, altura as integer)
   m.relogio.translation = [0.05 * largura, 0.10 * altura]
   m.relogio.visible = true
   m.relogio.font = "font:ExtraLargeBoldSystemFont"
+  ' Mantém o cálculo original (80–160), sem alterar
   m.relogio.font.size = clamp(int(0.14 * altura), 80, 160)
   atualizaRelogio()
 end sub
@@ -81,10 +81,11 @@ sub configureDate(largura as integer, altura as integer)
   m.data.height = 0.08 * altura
   m.data.horizAlign = "left"
   m.data.vertAlign = "top"
-  m.data.translation = [0.05 * largura, 0.28 * altura + 0.004 * altura]
+  m.data.translation = [0.05 * largura, (0.28 * altura) + (0.004 * altura)]
   m.data.visible = true
   m.data.font = "font:MediumBoldSystemFont"
-  m.data.font.size = clamp(int(0.045 * altura), 24, 40)
+  ' Aumentamos o multiplicador: antes era 0.045, agora 0.055 para ficar maior
+  m.data.font.size = clamp(int(0.055 * altura), 28, 48)
   atualizaData()
 end sub
 
@@ -96,14 +97,16 @@ sub configureSessionTitle(largura as integer, altura as integer)
   m.tituloSessao.translation = [0.05 * largura, 0.37 * altura]
   m.tituloSessao.visible = true
   m.tituloSessao.font = "font:LargeBoldSystemFont"
-  m.tituloSessao.font.size = clamp(int(0.052 * altura), 28, 48)
+  ' Aumentamos o multiplicador: antes era 0.052, agora 0.065 para ficar maior
+  m.tituloSessao.font.size = clamp(int(0.059 * altura), 32, 56)
   m.tituloSessao.text = "CENTRO DE TREINAMENTO GFTEAM PRAÇA DAS NAÇÕES"
 end sub
 
 sub configureAllButtons(largura as float, altura as float)
   m.botoesGroup.layoutDirection = "horiz"
   m.botoesGroup.itemSpacings = [0.015 * largura]
-  m.botoesGroup.translation = [100, 0.68 * altura]
+  ' Posiciona os botões mais para baixo: 0.75 * altura (antes era 0.68)
+  m.botoesGroup.translation = [0.05 * largura, 0.75 * altura]
 
   botoes = [
     { node: m.playButton, label: m.playButtonLabel },
@@ -139,7 +142,8 @@ sub configureCronometer(largura as integer, altura as integer)
   m.cronometro.translation = [0, 0.50 * altura]
   m.cronometro.visible = true
   m.cronometro.font = "font:ExtraLargeBoldSystemFont"
-  m.cronometro.font.size = clamp(int(0.13 * altura), 70, 140)
+  ' Aumentamos o multiplicador: antes 0.13, agora 0.20 (deixa muito maior, ajustável)
+  m.cronometro.font.size = clamp(int(0.20 * altura), 100, 200)
   m.cronometro.text = "00:00"
 end sub
 
@@ -254,11 +258,11 @@ function onKeyEvent(key as string, press as boolean) as boolean
       atualizaCronometro()
     else if botao.isSameNode(m.cincoButton)
       print "+5 minutos"
-      m.tempoRestante += 5 * 61
+      m.tempoRestante += 5 * 60 + 1
       atualizaCronometro()
     else if botao.isSameNode(m.dezButton)
       print "+10 minutos"
-      m.tempoRestante += 10 * 61
+      m.tempoRestante += 10 * 60 + 1
       atualizaCronometro()
     else if botao.isSameNode(m.resetButton)
       print "Reset pressionado"
