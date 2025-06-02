@@ -22,10 +22,24 @@ sub findNodes()
   m.tituloSessao = m.top.findNode("tituloSessao")
   m.data = m.top.findNode("data")
   m.cronometro = m.top.findNode("cronometro")
+
   m.playButton = m.top.findNode("playButton")
   m.playButtonLabel = m.top.findNode("playButtonLabel")
+
   m.pauseButton = m.top.findNode("pauseButton")
   m.pauseButtonLabel = m.top.findNode("pauseButtonLabel")
+
+  m.umButton = m.top.findNode("umButton")
+  m.umButtonLabel = m.top.findNode("umButtonLabel")
+
+  m.cincoButton = m.top.findNode("cincoButton")
+  m.cincoButtonLabel = m.top.findNode("cincoButtonLabel")
+
+  m.dezButton = m.top.findNode("dezButton")
+  m.dezButtonLabel = m.top.findNode("dezButtonLabel")
+
+  m.resetButton = m.top.findNode("resetButton")
+  m.resetButtonLabel = m.top.findNode("resetButtonLabel")
 end sub
 
 sub configureUI()
@@ -36,9 +50,9 @@ sub configureUI()
   configureClock(largura, altura)
   configureSessionTitle(largura, altura)
   configureDate(largura, altura)
-  configurePlayButton(largura, altura)
-  configurePauseButton(largura, altura)
+  configureAllButtons(largura, altura)
   configureCronometer(largura, altura)
+  print "[configureUI] Configuração concluída"
 end sub
 
 sub configureBackground(largura as integer, altura as integer)
@@ -46,17 +60,15 @@ sub configureBackground(largura as integer, altura as integer)
   m.fundo.width = largura
   m.fundo.height = altura
   m.fundo.translation = [0, 0]
-  m.fundo.scaleMode = "scaleToFit"
   m.fundo.visible = true
 end sub
 
 sub configureClock(largura as integer, altura as integer)
   print "[configureClock]"
-  m.relogio.width = largura
+  m.relogio.width = 0.90 * largura
   m.relogio.height = 0.18 * altura
-  m.relogio.horizAlign = "center"
-  m.relogio.vertAlign = "top"
-  m.relogio.translation = [0, 0.10 * altura]
+  m.relogio.horizAlign = "left"
+  m.relogio.translation = [0.05 * largura, 0.10 * altura]
   m.relogio.visible = true
   m.relogio.font = "font:ExtraLargeBoldSystemFont"
   relogioFontSize = clamp(int(0.14 * altura), 80, 160)
@@ -65,62 +77,79 @@ sub configureClock(largura as integer, altura as integer)
   atualizaRelogio()
 end sub
 
+sub configureDate(largura as integer, altura as integer)
+  print "[configureDate]"
+  m.data.width = 0.90 * largura
+  m.data.height = 0.08 * altura
+  m.data.horizAlign = "left"
+  m.data.vertAlign = "top"
+  relogioY = 0.10 * altura
+  relogioH = 0.18 * altura
+  espacoEntre = 0.004 * altura
+  m.data.translation = [0.05 * largura, relogioY + relogioH + espacoEntre]
+  m.data.visible = true
+  m.data.font = "font:MediumBoldSystemFont"
+  m.data.font.size = clamp(int(0.045 * altura), 24, 40)
+  atualizaData()
+end sub
+
 sub configureSessionTitle(largura as integer, altura as integer)
   print "[configureSessionTitle]"
   m.tituloSessao.width = 0.90 * largura
   m.tituloSessao.height = 0.10 * altura
   m.tituloSessao.horizAlign = "center"
   m.tituloSessao.vertAlign = "top"
-  m.tituloSessao.translation = [0.05 * largura, (0.10 * altura) + int(0.14 * altura) + (0.03 * altura)]
+  relogioY = 0.10 * altura
+  relogioH = 0.18 * altura
+  dataH = 0.08 * altura
+  espacoData = 0.008 * altura
+  espacoTitulo = 0.012 * altura
+  yData = relogioY + relogioH + espacoData
+  m.tituloSessao.translation = [0.05 * largura, yData + dataH + espacoTitulo]
   m.tituloSessao.visible = true
   m.tituloSessao.font = "font:LargeBoldSystemFont"
-  m.tituloSessao.font.size = clamp(int(0.045 * altura), 20, 42)
+  m.tituloSessao.font.size = clamp(int(0.052 * altura), 28, 48)
   m.tituloSessao.text = "CENTRO DE TREINAMENTO GFTEAM PRAÇA DAS NAÇÕES"
 end sub
 
-sub configureDate(largura as integer, altura as integer)
-  print "[configureDate]"
-  m.data.width = 0.90 * largura
-  m.data.height = 0.10 * altura
-  m.data.horizAlign = "center"
-  m.data.vertAlign = "top"
-  m.data.translation = [0.05 * largura, 0.40 * altura]
-  m.data.visible = true
-  m.data.font = "font:MediumBoldSystemFont"
-  m.data.font.size = clamp(int(0.045 * altura), 20, 36)
-  atualizaData()
-end sub
+function getButtonsStartX(btnWidth as float, spacing as float, qtdBotoes as integer, largura as float) as float
+  totalWidth = (btnWidth * qtdBotoes) + (spacing * (qtdBotoes - 1))
+  return (largura - totalWidth) / 2
+end function
 
-sub configurePlayButton(largura as integer, altura as integer)
-  print "[configurePlayButton]"
-  m.playButton.width = 0.15 * largura
-  m.playButton.height = 0.08 * altura
-  m.playButton.horizAlign = "left"
-  m.playButton.vertAlign = "top"
-  m.playButton.translation = [0.20 * largura, 0.68 * altura]
-  m.playButtonLabel.width = m.playButton.width
-  m.playButtonLabel.height = m.playButton.height
-  m.playButtonLabel.horizAlign = "center"
-  m.playButtonLabel.vertAlign = "center"
-  m.playButtonLabel.font = "font:MediumBoldSystemFont"
-  m.playButtonLabel.font.size = int(0.6 * m.playButton.height)
-  m.playButtonLabel.visible = true
-end sub
+sub configureAllButtons(largura as float, altura as float)
+  print "[configureAllButtons]"
+  btnWidth = 0.13 * largura
+  btnHeight = 0.08 * altura
+  spacing = 0.015 * largura
+  yPos = 0.68 * altura
+  total = 6
+  xStart = getButtonsStartX(btnWidth, spacing, total, largura)
 
-sub configurePauseButton(largura as integer, altura as integer)
-  print "[configurePauseButton]"
-  m.pauseButton.width = 0.15 * largura
-  m.pauseButton.height = 0.08 * altura
-  m.pauseButton.horizAlign = "left"
-  m.pauseButton.vertAlign = "top"
-  m.pauseButton.translation = [0.20 * largura + 0.15 * largura + 0.02 * largura, 0.68 * altura]
-  m.pauseButtonLabel.width = m.pauseButton.width
-  m.pauseButtonLabel.height = m.pauseButton.height
-  m.pauseButtonLabel.horizAlign = "center"
-  m.pauseButtonLabel.vertAlign = "center"
-  m.pauseButtonLabel.font = "font:MediumBoldSystemFont"
-  m.pauseButtonLabel.font.size = int(0.6 * m.pauseButton.height)
-  m.pauseButtonLabel.visible = true
+  buttons = [
+    { node: m.playButton, label: m.playButtonLabel },
+    { node: m.pauseButton, label: m.pauseButtonLabel },
+    { node: m.umButton, label: m.umButtonLabel },
+    { node: m.cincoButton, label: m.cincoButtonLabel },
+    { node: m.dezButton, label: m.dezButtonLabel },
+    { node: m.resetButton, label: m.resetButtonLabel }
+  ]
+
+  for i = 0 to total - 1
+    xPos = xStart + i * (btnWidth + spacing)
+    b = buttons[i]
+    b.node.width = btnWidth
+    b.node.height = btnHeight
+    b.node.translation = [xPos, yPos]
+
+    b.label.width = btnWidth
+    b.label.height = btnHeight
+    b.label.horizAlign = "center"
+    b.label.vertAlign = "center"
+    b.label.font = "font:MediumBoldSystemFont"
+    b.label.font.size = int(0.6 * btnHeight)
+    b.label.visible = true
+  end for
 end sub
 
 sub configureCronometer(largura as integer, altura as integer)
@@ -165,20 +194,6 @@ end sub
 
 sub atualizaData()
   print "[atualizaData]"
-  largura = m.top.boundingRect().width
-  altura = m.top.boundingRect().height
-  dataLargura = 0.90 * largura
-  dataAltura = 0.10 * altura
-  dataFontSize = 36
-  if int(0.045 * altura) < 20 then dataFontSize = 20
-  m.data.width = dataLargura
-  m.data.height = dataAltura
-  m.data.horizAlign = "center"
-  m.data.vertAlign = "top"
-  m.data.translation = [0.05 * largura, 0.40 * altura]
-  m.data.visible = true
-  m.data.font = "font:MediumBoldSystemFont"
-  m.data.font.size = dataFontSize
   agora = CreateObject("roDateTime")
   agora.ToLocalTime()
   semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
