@@ -18,8 +18,6 @@ sub init()
   m.deviceInfo = CreateObject("roDeviceInfo")
   m.deviceInfo.SetMessagePort(m.port)
   m.deviceInfo.EnableLinkStatusEvent(true)
-
-  tocarSomAbertura("pkg:/sounds/phone-disconnect-1.mp3")
 end sub
 
 sub observeFields()
@@ -193,10 +191,13 @@ sub atualizaCronometro()
     minutos = m.tempoRestante \ 60
     segundos = m.tempoRestante mod 60
     m.cronometro.text = formatTempo(minutos, segundos)
+
+    ' Toca o som quando faltarem 5 segundos
     if m.tempoRestante = 5
       print "⏰ Iniciando contagem regressiva final: tocando som..."
-      m.blinkTimer.control = "start"
+      tocarSomAbertura()
     end if
+
   else
     m.timer.control = "stop"
     m.blinkTimer.control = "stop"
@@ -313,11 +314,14 @@ sub piscarCronometro()
   m.cronometro.visible = not m.cronometro.visible
 end sub
 
-sub tocarSomAbertura(url as string)
-  soundEffect = createObject("roSGNode", "SoundEffect")
-  soundEffect.uri = url
-  m.top.appendChild(soundEffect)
-  soundEffect.control = "play"
+sub tocarSomAbertura()
+  print "🔊 tentando tocar o som"
+  audio = createObject("roSGNode", "Audio")
+  content = createObject("roSGNode", "ContentNode")
+  content.url = "pkg:/sounds/timer-alarm-detector-bleeping-beeping.wav"
+  audio.content = content
+  m.top.appendChild(audio)
+  audio.control = "play"
 end sub
 
 function temConexaoInternet() as boolean
