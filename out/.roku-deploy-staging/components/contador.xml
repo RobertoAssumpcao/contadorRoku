@@ -8,17 +8,17 @@
     <Label id="relogio" color="0xFFFFFFFF" />
 
     <!-- Data -->
-    <Label id="data" color="0xCCCCCCFF" />
-    <!-- Título da Sessão -->
+    <Label id="data" color="0xCCCCCCFF" />    <!-- Título da Sessão -->
     <Label id="tituloSessao" color="0xEEEEEEFF" />
-
+    
     <!-- Cronômetro -->
     <Label id="cronometro" color="0xF43F5EFF" />
-    <Label id="temperatura" color="0xFFFFFFFF" />
+      <Label id="temperatura" color="0xFFFFFFFF" />
     <Label id="cidade" color="0xCCCCCCFF" />
-
+    <Label id="estacao" color="0xAAAAAAFF" />
+    
     <!-- Alerta da Academia -->
-    <Label id="alertaAcademia" color="0xFFD700FF" wrap="true" />
+    <Label id="alertaAcademia" color="0xFFD700FF"  wrap="true" />
 
     <!-- LayoutGroup contendo todos os botões (sem nenhuma propriedade estática) -->
     <LayoutGroup id="botoesGroup" focusable="true">

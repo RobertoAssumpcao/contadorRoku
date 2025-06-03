@@ -53,6 +53,7 @@ sub findNodes()
   m.botoesGroup = m.top.findNode("botoesGroup")
   m.temperatura = m.top.findNode("temperatura")
   m.cidade = m.top.findNode("cidade")
+  m.estacao = m.top.findNode("estacao")
   m.coordenadas = m.top.findNode("coordenadas")
   m.alertaAcademia = m.top.findNode("alertaAcademia")
 end sub
@@ -165,60 +166,71 @@ end sub
 
 ' Configurar elementos de clima no canto superior direito (responsivo)
 sub configureClima(largura as integer, altura as integer)
-  ' Calcular posições responsivas baseadas no tamanho da tela
-  climaX = 0.72 * largura ' 72% da largura da tela
-  baseY = 0.05 * altura ' 5% da altura da tela
+    ' Calcular posições responsivas baseadas no tamanho da tela
+    climaX = 0.72 * largura  ' 72% da largura da tela
+    baseY = 0.05 * altura    ' 5% da altura da tela
 
-  ' Configurar temperatura (maior e responsiva)
-  m.temperatura.width = 0.25 * largura
-  m.temperatura.height = 0.08 * altura
-  m.temperatura.horizAlign = "right"
-  m.temperatura.vertAlign = "top"
-  m.temperatura.translation = [climaX, baseY]
-  m.temperatura.visible = true
-  m.temperatura.font = "font:LargeBoldSystemFont"
-  m.temperatura.font.size = clamp(int(0.06 * altura), 35, 60) ' Tamanho maior
-  m.temperatura.text = "--°C"
+    ' Configurar temperatura (maior e responsiva)
+    m.temperatura.width = 0.25 * largura
+    m.temperatura.height = 0.08 * altura
+    m.temperatura.horizAlign = "right"
+    m.temperatura.vertAlign = "top"
+    m.temperatura.translation = [climaX, baseY]
+    m.temperatura.visible = true
+    m.temperatura.font = "font:LargeBoldSystemFont"
+    m.temperatura.font.size = clamp(int(0.06 * altura), 35, 60)  ' Tamanho maior
+    m.temperatura.text = "--°C"
 
-  ' Configurar cidade (maior e responsiva)
-  m.cidade.width = 0.25 * largura
-  m.cidade.height = 0.06 * altura
-  m.cidade.horizAlign = "right"
-  m.cidade.vertAlign = "top"
-  m.cidade.translation = [climaX, baseY + (0.08 * altura)] ' Abaixo da temperatura
-  m.cidade.visible = true
-  m.cidade.font = "font:MediumBoldSystemFont"
-  m.cidade.font.size = clamp(int(0.045 * altura), 28, 45) ' Tamanho maior
-  m.cidade.text = "Carregando..."
+    ' Configurar cidade (maior e responsiva)
+    m.cidade.width = 0.25 * largura
+    m.cidade.height = 0.06 * altura
+    m.cidade.horizAlign = "right"
+    m.cidade.vertAlign = "top"
+    m.cidade.translation = [climaX, baseY + (0.08 * altura)]  ' Abaixo da temperatura
+    m.cidade.visible = true
+    m.cidade.font = "font:MediumBoldSystemFont"
+    m.cidade.font.size = clamp(int(0.045 * altura), 28, 45)  ' Tamanho maior
+    m.cidade.text = "Carregando..."
 
-  ' Configurar coordenadas (responsiva)
-  if m.coordenadas <> invalid
-    m.coordenadas.width = 0.25 * largura
-    m.coordenadas.height = 0.04 * altura
-    m.coordenadas.horizAlign = "right"
-    m.coordenadas.vertAlign = "top"
-    m.coordenadas.translation = [climaX, baseY + (0.19 * altura)] ' Abaixo da estação
-    m.coordenadas.visible = true
-    m.coordenadas.font = "font:SmallSystemFont"
-    m.coordenadas.font.size = clamp(int(0.025 * altura), 18, 28)
-    m.coordenadas.text = "22.9°S, 43.2°W"
-  else
-    print "[configureClima] m.coordenadas é inválido"
-  end if
+    ' Configurar estação do ano (responsiva)
+    m.estacao.width = 0.25 * largura
+    m.estacao.height = 0.05 * altura
+    m.estacao.horizAlign = "right"
+    m.estacao.vertAlign = "top"
+    m.estacao.translation = [climaX, baseY + (0.14 * altura)]  ' Abaixo da cidade
+    m.estacao.visible = true
+    m.estacao.font = "font:SmallBoldSystemFont"
+    m.estacao.font.size = clamp(int(0.035 * altura), 22, 35)
+    m.estacao.text = "Estação..."
 
-  ' Configurar alerta da academia (maior, responsivo e com nova cor)
-  m.alertaAcademia.width = 0.95 * largura
-  m.alertaAcademia.height = 0.12 * altura
-  m.alertaAcademia.horizAlign = "center"
-  m.alertaAcademia.vertAlign = "center"
-  m.alertaAcademia.translation = [0.025 * largura, 0.85 * altura] ' Parte inferior da tela
-  m.alertaAcademia.visible = true
-  m.alertaAcademia.font = "font:MediumBoldSystemFont"
-  m.alertaAcademia.font.size = clamp(int(0.04 * altura), 24, 36)
-  m.alertaAcademia.color = "0xFF4500FF" ' Nova cor (laranja forte)
-  m.alertaAcademia.text = ""
+    ' Configurar coordenadas (responsiva)
+    if m.coordenadas <> invalid
+        m.coordenadas.width = 0.25 * largura
+        m.coordenadas.height = 0.04 * altura
+        m.coordenadas.horizAlign = "right"
+        m.coordenadas.vertAlign = "top"
+        m.coordenadas.translation = [climaX, baseY + (0.19 * altura)]  ' Abaixo da estação
+        m.coordenadas.visible = true
+        m.coordenadas.font = "font:SmallSystemFont"
+        m.coordenadas.font.size = clamp(int(0.025 * altura), 18, 28)
+        m.coordenadas.text = "22.9°S, 43.2°W"
+    else
+        print "[configureClima] m.coordenadas é inválido"
+    end if
 
-  print "[configureClima] Clima configurado responsivamente para " + largura.toStr() + "x" + altura.toStr()
+    ' Configurar alerta da academia (maior, responsivo e com nova cor)
+    m.alertaAcademia.width = 0.95 * largura
+    m.alertaAcademia.height = 0.12 * altura
+    m.alertaAcademia.horizAlign = "center"
+    m.alertaAcademia.vertAlign = "center"
+    m.alertaAcademia.translation = [0.025 * largura, 0.85 * altura]  ' Parte inferior da tela
+    m.alertaAcademia.visible = true
+    m.alertaAcademia.font = "font:MediumBoldSystemFont"
+    m.alertaAcademia.font.size = clamp(int(0.04 * altura), 24, 36)
+    m.alertaAcademia.color = "0xFF4500FF"  ' Nova cor (laranja forte)
+    m.alertaAcademia.text = ""
+
+    print "[configureClima] Clima configurado responsivamente para " + largura.toStr() + "x" + altura.toStr()
 end sub
 
 sub initializeTimer()
@@ -322,6 +334,8 @@ end sub
 sub limparInformacoesClima()
   if m.temperatura <> invalid then m.temperatura.text = ""
   if m.cidade <> invalid then m.cidade.text = ""
+  if m.estacao <> invalid then m.estacao.text = ""
+  if m.coordenadas <> invalid then m.coordenadas.text = ""
   if m.alertaAcademia <> invalid then m.alertaAcademia.text = ""
 end sub
 
@@ -340,12 +354,14 @@ sub onClimaRealRecebido()
 end sub
 
 ' Atualizar interface com dados reais da API
-sub atualizarInterfaceComDadosReais(dadosClima as object)
+sub atualizarInterfaceComDadosReais(dadosClima as Object)
   print "[atualizarInterfaceComDadosReais] Atualizando interface com dados reais..."
 
   ' Atualizar elementos da interface com dados reais
   m.temperatura.text = dadosClima.temperatura + "°C"
   m.cidade.text = dadosClima.cidade
+  m.estacao.text = dadosClima.estacao
+  m.coordenadas.text = dadosClima.coordenadas
 
   print "[atualizarInterfaceComDadosReais] Interface atualizada: " + dadosClima.temperatura + "°C, " + dadosClima.condicao + " em " + dadosClima.cidade
 end sub
@@ -358,7 +374,7 @@ end sub
 ' Os novos alertas são baseados em dados meteorológicos reais
 
 ' Verificar alertas da academia baseados em dados REAIS da API
-sub verificarAlertasAcademiaReais(dadosClima as object)
+sub verificarAlertasAcademiaReais(dadosClima as Object)
   print "[verificarAlertasAcademiaReais] Analisando dados reais para alertas..."
 
   alerta = ""
@@ -376,40 +392,40 @@ sub verificarAlertasAcademiaReais(dadosClima as object)
   else if condicao.Instr("chuva") >= 0 or condicao.Instr("chuvisco") >= 0
     alerta = "POSSIBILIDADE DE CHUVA - " + condicao
 
-    ' 2. TEMPESTADE - Perigoso para qualquer atividade externa
+  ' 2. TEMPESTADE - Perigoso para qualquer atividade externa
   else if condicao.Instr("tempestade") >= 0 or condicao.Instr("trovão") >= 0
     alerta = "TEMPESTADE - Perigo de raios!"
 
-    ' 3. CALOR EXTREMO - Baseado em temperatura e sensação real
+  ' 3. CALOR EXTREMO - Baseado em temperatura e sensação real
   else if temperatura >= 35
     sensacao = dadosClima.sensacao.ToFloat()
     alerta = "CALOR EXTREMO! " + dadosClima.temperatura + "°C (sensação " + dadosClima.sensacao + "°C) - Hidratação ESSENCIAL!"
 
-    ' 4. TEMPO MUITO SECO - Umidade baixa
+  ' 4. TEMPO MUITO SECO - Umidade baixa
   else if umidade <= 30
     alerta = "AR MUITO SECO (" + dadosClima.umidade + "%) - Hidrate-se"
 
-    ' 5. VENTO FORTE - Pode atrapalhar treinos externos
+  ' 5. VENTO FORTE - Pode atrapalhar treinos externos
   else if vento >= 30 ' Mais de 30 km/h
     alerta = "VENTO FORTE (" + dadosClima.ventoVelocidade + " km/h)"
 
-    ' 6. CALOR ALTO - Temperatura alta mas não extrema
+  ' 6. CALOR ALTO - Temperatura alta mas não extrema
   else if temperatura >= 30
     alerta = "CALOR ALTO (" + dadosClima.temperatura + "°C) - Leve mais água"
 
-    ' 7. FRIO INTENSO - Baseado em temperatura real
+  ' 7. FRIO INTENSO - Baseado em temperatura real
   else if temperatura <= 15
     alerta = "FRIO INTENSO (" + dadosClima.temperatura + "°C) - Aquecimento prolongado necessário!"
 
-    ' 8. NEBLINA/VISIBILIDADE BAIXA
+  ' 8. NEBLINA/VISIBILIDADE BAIXA
   else if condicao.Instr("neblina") >= 0 or condicao.Instr("névoa") >= 0
     alerta = "VISIBILIDADE REDUZIDA - " + condicao
 
-    ' 9. CONDIÇÕES IDEAIS
+  ' 9. CONDIÇÕES IDEAIS
   else if temperatura >= 18 and temperatura <= 28 and umidade >= 40 and umidade <= 70 and chuva = 0
     alerta = "CONDIÇÕES IDEAIS para treino! " + dadosClima.temperatura + "°C, " + condicao
 
-    ' 10. ALERTA GERAL baseado na descrição da API
+  ' 10. ALERTA GERAL baseado na descrição da API
   else if condicao <> ""
     alerta = "" + condicao
   end if
