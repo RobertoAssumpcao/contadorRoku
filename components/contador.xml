@@ -18,7 +18,7 @@
     <Label id="cidade" color="0xCCCCCCFF" />
 
     <!-- Alerta da Academia -->
-    <Label id="alertaAcademia" color="0xFFD700FF" wrap="true" />
+    <Label id="alertaAcademia" color="0xFFFFFFFF" wrap="true" />
 
     <!-- LayoutGroup contendo todos os botões (sem nenhuma propriedade estática) -->
     <LayoutGroup id="botoesGroup" focusable="true">
