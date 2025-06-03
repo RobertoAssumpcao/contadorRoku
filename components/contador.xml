@@ -16,11 +16,9 @@
       <Label id="temperatura" color="0xFFFFFFFF" />
     <Label id="cidade" color="0xCCCCCCFF" />
     <Label id="estacao" color="0xAAAAAAFF" />
-    <Label id="coordenadas" color="0x888888FF" />
-    <Label id="iconeClima" color="0xFFFFFFFF" />
     
     <!-- Alerta da Academia -->
-    <Label id="alertaAcademia" color="0xFFD700FF" maxWidth="800" wrap="true" />
+    <Label id="alertaAcademia" color="0xFFD700FF"  wrap="true" />
 
     <!-- LayoutGroup contendo todos os botões (sem nenhuma propriedade estática) -->
     <LayoutGroup id="botoesGroup" focusable="true">

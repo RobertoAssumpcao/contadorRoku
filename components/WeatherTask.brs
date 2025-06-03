@@ -141,7 +141,6 @@ sub processarDadosReais(climaData as Object)
             cidade: cidade,
             estacao: estacao,
             coordenadas: climaData.coord.lat.toStr() + "°S, " + climaData.coord.lon.toStr() + "°W",
-            timestamp: agora.AsDateString() + " " + agora.AsTimeString(),
             sucesso: true
         }
 
