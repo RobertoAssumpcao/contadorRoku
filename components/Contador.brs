@@ -14,6 +14,12 @@ sub init()
     m.cincoButton, m.dezButton, m.resetButton
   ]
   m.botoes[m.botaoIndex].setFocus(true)
+
+  m.deviceInfo = CreateObject("roDeviceInfo")
+  m.deviceInfo.SetMessagePort(m.port)
+  m.deviceInfo.EnableLinkStatusEvent(true)
+
+  tocarSomAbertura("pkg:/sounds/phone-disconnect-1.mp3")
 end sub
 
 sub observeFields()
@@ -172,10 +178,9 @@ sub initializeTimer()
 
   ' Timer para atualizar hora e data automaticamente
   m.clockTimer = createObject("roSGNode", "Timer")
-  m.clockTimer.duration = 30  ' Atualiza a cada 30 segundos
   m.clockTimer.repeat = true
   m.clockTimer.observeField("fire", "atualizaHoraData")
-  m.clockTimer.control = "start"  ' Inicia automaticamente
+  m.clockTimer.control = "start" ' Inicia automaticamente
   m.top.appendChild(m.clockTimer)
 
   ' Inicializa contador
@@ -191,7 +196,6 @@ sub atualizaCronometro()
     if m.tempoRestante = 5
       print "⏰ Iniciando contagem regressiva final: tocando som..."
       m.blinkTimer.control = "start"
-      m.audio.control = "play"
     end if
   else
     m.timer.control = "stop"
@@ -308,3 +312,15 @@ end function
 sub piscarCronometro()
   m.cronometro.visible = not m.cronometro.visible
 end sub
+
+sub tocarSomAbertura(url as string)
+  soundEffect = createObject("roSGNode", "SoundEffect")
+  soundEffect.uri = url
+  m.top.appendChild(soundEffect)
+  soundEffect.control = "play"
+end sub
+
+function temConexaoInternet() as boolean
+  deviceInfo = CreateObject("roDeviceInfo")
+  return deviceInfo.GetLinkStatus()
+end function
