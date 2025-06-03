@@ -7,13 +7,14 @@ sub init()
   findNodes()
   initializeTimer()
   configureUI()
-
   m.botaoIndex = 0
   m.botoes = [
     m.playButton, m.pauseButton, m.umButton,
     m.cincoButton, m.dezButton, m.resetButton
   ]
   m.botoes[m.botaoIndex].setFocus(true)
+  ' Configurar cores iniciais dos botões
+  updateButtonColors()
 
   m.deviceInfo = CreateObject("roDeviceInfo")
   m.deviceInfo.SetMessagePort(m.port)
@@ -23,7 +24,6 @@ end sub
 sub observeFields()
   print "[observeFields] Observando campos visuais"
   m.top.observeField("visible", "onVisibleChange")
-  m.top.observeField("focusedChild", "onFocusChange")
 end sub
 
 sub findNodes()
@@ -240,26 +240,32 @@ sub onVisibleChange()
 end sub
 
 sub onFocusChange()
-  for each botao in m.botoes
-    if botao.hasFocus()
-      botao.color = "0xE53E3EFF"
+  ' Esta função não é mais necessária - removemos a observação do focusedChild
+end sub
+
+sub updateButtonColors()
+  ' Função para atualizar as cores dos botões baseado no foco atual
+  for i = 0 to m.botoes.count() - 1
+    if i = m.botaoIndex
+      m.botoes[i].color = "0xF43F5EFF" ' Cor rosa/vermelha para botão focado (mesma cor do cronômetro)
     else
-      botao.color = "0x2D3748FF"
+      m.botoes[i].color = "0x1E293BFF" ' Cor azul escura original para botões não focados
     end if
   end for
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
-
   if key = "right"
     m.botaoIndex = (m.botaoIndex + 1) mod m.botoes.count()
     m.botoes[m.botaoIndex].setFocus(true)
+    updateButtonColors()
     return true
 
   else if key = "left"
     m.botaoIndex = (m.botaoIndex - 1 + m.botoes.count()) mod m.botoes.count()
     m.botoes[m.botaoIndex].setFocus(true)
+    updateButtonColors()
     return true
 
   else if key = "OK"
