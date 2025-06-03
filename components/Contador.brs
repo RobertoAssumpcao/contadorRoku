@@ -19,6 +19,8 @@ sub init()
   ' Inicializar timer de clima
   iniciarTimerClima()
 
+  ' Criar porta de mensagens para eventos do dispositivo
+  m.port = CreateObject("roMessagePort")
   m.deviceInfo = CreateObject("roDeviceInfo")
   m.deviceInfo.SetMessagePort(m.port)
   m.deviceInfo.EnableLinkStatusEvent(true)
