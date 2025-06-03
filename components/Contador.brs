@@ -215,7 +215,6 @@ sub configureClima(largura as integer, altura as integer)
   m.alertaAcademia.visible = true
   m.alertaAcademia.font = "font:MediumBoldSystemFont"
   m.alertaAcademia.font.size = clamp(int(0.04 * altura), 24, 36)
-  m.alertaAcademia.color = "0xFF4500FF" ' Nova cor (laranja forte)
   m.alertaAcademia.text = ""
 
   print "[configureClima] Clima configurado responsivamente para " + largura.toStr() + "x" + altura.toStr()
