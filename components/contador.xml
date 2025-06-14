@@ -30,16 +30,16 @@
         <Label id="pauseButtonLabel" text="Pause" color="0xF8FAFCFF" />
       </Rectangle>
 
-      <Rectangle id="umButton" color="0x1E293BFF" focusable="true">
-        <Label id="umButtonLabel" text="+1" color="0xF8FAFCFF" />
+      <Rectangle id="trintaSegundosButton" color="0x1E293BFF" focusable="true">
+        <Label id="trintaSegundosButtonLabel" text="+ 0:30" color="0xF8FAFCFF" />
+      </Rectangle>
+
+      <Rectangle id="trezButton" color="0x1E293BFF" focusable="true">
+        <Label id="trezButtonLabel" text="+ 3:00" color="0xF8FAFCFF" />
       </Rectangle>
 
       <Rectangle id="cincoButton" color="0x1E293BFF" focusable="true">
-        <Label id="cincoButtonLabel" text="+5" color="0xF8FAFCFF" />
-      </Rectangle>
-
-      <Rectangle id="dezButton" color="0x1E293BFF" focusable="true">
-        <Label id="dezButtonLabel" text="+10" color="0xF8FAFCFF" />
+        <Label id="cincoButtonLabel" text="+ 5:00" color="0xF8FAFCFF" />
       </Rectangle>
 
       <Rectangle id="resetButton" color="0x1E293BFF" focusable="true">

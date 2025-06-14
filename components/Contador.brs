@@ -9,8 +9,8 @@ sub init()
   configureUI()
   m.botaoIndex = 0
   m.botoes = [
-    m.playButton, m.pauseButton, m.umButton,
-    m.cincoButton, m.dezButton, m.resetButton
+    m.playButton, m.pauseButton, m.trintaSegundosButton,
+    m.trezButton, m.cincoButton, m.resetButton
   ]
   m.botoes[m.botaoIndex].setFocus(true)
   ' Configurar cores iniciais dos botões
@@ -42,12 +42,12 @@ sub findNodes()
   m.playButtonLabel = m.top.findNode("playButtonLabel")
   m.pauseButton = m.top.findNode("pauseButton")
   m.pauseButtonLabel = m.top.findNode("pauseButtonLabel")
-  m.umButton = m.top.findNode("umButton")
-  m.umButtonLabel = m.top.findNode("umButtonLabel")
+  m.trintaSegundosButton = m.top.findNode("trintaSegundosButton")
+  m.trintaSegundosButtonLabel = m.top.findNode("trintaSegundosButtonLabel")
+  m.trezButton = m.top.findNode("trezButton")
+  m.trezButtonLabel = m.top.findNode("trezButtonLabel")
   m.cincoButton = m.top.findNode("cincoButton")
   m.cincoButtonLabel = m.top.findNode("cincoButtonLabel")
-  m.dezButton = m.top.findNode("dezButton")
-  m.dezButtonLabel = m.top.findNode("dezButtonLabel")
   m.resetButton = m.top.findNode("resetButton")
   m.resetButtonLabel = m.top.findNode("resetButtonLabel")
   m.botoesGroup = m.top.findNode("botoesGroup")
@@ -127,9 +127,9 @@ sub configureAllButtons(largura as float, altura as float)
   botoes = [
     { node: m.playButton, label: m.playButtonLabel },
     { node: m.pauseButton, label: m.pauseButtonLabel },
-    { node: m.umButton, label: m.umButtonLabel },
+    { node: m.trintaSegundosButton, label: m.trintaSegundosButtonLabel },
+    { node: m.trezButton, label: m.trezButtonLabel },
     { node: m.cincoButton, label: m.cincoButtonLabel },
-    { node: m.dezButton, label: m.dezButtonLabel },
     { node: m.resetButton, label: m.resetButtonLabel }
   ]
 
@@ -177,7 +177,7 @@ sub configureClima(largura as integer, altura as integer)
   m.temperatura.translation = [climaX, baseY]
   m.temperatura.visible = true
   m.temperatura.font = "font:LargeBoldSystemFont"
-  m.temperatura.font.size = clamp(int(0.06 * altura), 35, 60) ' Tamanho maior
+  m.temperatura.font.size = clamp(int(0.08 * altura), 40, 80) ' Tamanho ainda maior
   m.temperatura.text = "--°C"
 
   ' Configurar cidade (maior e responsiva)
@@ -265,7 +265,6 @@ sub atualizaCronometro()
       print "⏰ Iniciando contagem regressiva final: tocando som..."
       tocarSomAbertura()
     end if
-
   else
     m.timer.control = "stop"
     m.blinkTimer.control = "stop"
@@ -331,7 +330,6 @@ sub onClimaRealRecebido()
   if dadosClima <> invalid and dadosClima.sucesso = true
     ' Usar dados reais da API
     atualizarInterfaceComDadosReais(dadosClima)
-    verificarAlertasAcademiaReais(dadosClima)
   else
     print "[onClimaRealRecebido] Erro ou dados inválidos recebidos"
     limparInformacoesClima()
@@ -343,10 +341,11 @@ sub atualizarInterfaceComDadosReais(dadosClima as object)
   print "[atualizarInterfaceComDadosReais] Atualizando interface com dados reais..."
 
   ' Atualizar elementos da interface com dados reais
-  m.temperatura.text = dadosClima.temperatura + "°C"
+  temperaturaInteira = dadosClima.temperatura.split(".")[0] ' Pega apenas a parte inteira antes da vírgula
+  m.temperatura.text = temperaturaInteira + " °C"
   m.cidade.text = dadosClima.cidade
 
-  print "[atualizarInterfaceComDadosReais] Interface atualizada: " + dadosClima.temperatura + "°C, " + dadosClima.condicao + " em " + dadosClima.cidade
+  print "[atualizarInterfaceComDadosReais] Interface atualizada: " + temperaturaInteira + " C, " + dadosClima.condicao + " em " + dadosClima.cidade
 end sub
 
 ' Usar dados de clima inteligentes baseados na hora e localização
@@ -355,81 +354,6 @@ end sub
 
 ' REMOVIDO: verificarAlertasAcademia() - substituído por verificarAlertasAcademiaReais()
 ' Os novos alertas são baseados em dados meteorológicos reais
-
-' Verificar alertas da academia baseados em dados REAIS da API
-sub verificarAlertasAcademiaReais(dadosClima as object)
-  print "[verificarAlertasAcademiaReais] Analisando dados reais para alertas..."
-
-  alerta = ""
-  temperatura = dadosClima.temperatura.ToFloat()
-  umidade = dadosClima.umidade.ToFloat()
-  chuva = dadosClima.chuva.ToFloat()
-  vento = dadosClima.ventoVelocidade.ToFloat()
-  condicao = dadosClima.condicao
-
-  ' ALERTAS PRIORITÁRIOS PARA ACADEMIA
-
-  ' 1. CHUVA - Alerta mais importante para treino ao ar livre
-  if chuva > 0.5 ' Mais de 0.5mm de chuva
-    alerta = "CHUVA DETECTADA (" + dadosClima.chuva + "mm)"
-  else if condicao.Instr("chuva") >= 0 or condicao.Instr("chuvisco") >= 0
-    alerta = "POSSIBILIDADE DE CHUVA - " + condicao
-
-    ' 2. TEMPESTADE - Perigoso para qualquer atividade externa
-  else if condicao.Instr("tempestade") >= 0 or condicao.Instr("trovão") >= 0
-    alerta = "TEMPESTADE - Perigo de raios!"
-
-    ' 3. CALOR EXTREMO - Baseado em temperatura e sensação real
-  else if temperatura >= 35
-    sensacao = dadosClima.sensacao.ToFloat()
-    alerta = "CALOR EXTREMO! " + dadosClima.temperatura + "°C (sensação " + dadosClima.sensacao + "°C) - Hidratação ESSENCIAL!"
-
-    ' 4. TEMPO MUITO SECO - Umidade baixa
-  else if umidade <= 30
-    alerta = "AR MUITO SECO (" + dadosClima.umidade + "%) - Hidrate-se"
-
-    ' 5. VENTO FORTE - Pode atrapalhar treinos externos
-  else if vento >= 30 ' Mais de 30 km/h
-    alerta = "VENTO FORTE (" + dadosClima.ventoVelocidade + " km/h)"
-
-    ' 6. CALOR ALTO - Temperatura alta mas não extrema
-  else if temperatura >= 30
-    alerta = "CALOR ALTO (" + dadosClima.temperatura + "°C) - Leve mais água"
-
-    ' 7. FRIO INTENSO - Baseado em temperatura real
-  else if temperatura <= 15
-    alerta = "FRIO INTENSO (" + dadosClima.temperatura + "°C) - Aquecimento prolongado necessário!"
-
-    ' 8. NEBLINA/VISIBILIDADE BAIXA
-  else if condicao.Instr("neblina") >= 0 or condicao.Instr("névoa") >= 0
-    alerta = "VISIBILIDADE REDUZIDA - " + condicao
-
-    ' 9. CONDIÇÕES IDEAIS
-  else if temperatura >= 18 and temperatura <= 28 and umidade >= 40 and umidade <= 70 and chuva = 0
-    alerta = "CONDIÇÕES IDEAIS para treino! " + dadosClima.temperatura + "°C, " + condicao
-
-    ' 10. ALERTA GERAL baseado na descrição da API
-  else if condicao <> ""
-    alerta = "" + condicao
-  end if
-
-  ' Adicionar informações extras sempre
-  if alerta <> ""
-    alerta = alerta + " | Umidade: " + dadosClima.umidade + "%"
-  end if
-
-  ' Exibir alerta
-  if alerta <> ""
-    print "ALERTA ACADEMIA (DADOS REAIS): " + alerta
-    if m.alertaAcademia <> invalid
-      m.alertaAcademia.text = alerta
-    end if
-  else
-    if m.alertaAcademia <> invalid
-      m.alertaAcademia.text = "📊 Dados reais: " + dadosClima.temperatura + "°C, " + condicao
-    end if
-  end if
-end sub
 
 ' Verificar alertas climáticos importantes para academia
 ' Timer para atualizar clima real periodicamente
@@ -486,17 +410,17 @@ function onKeyEvent(key as string, press as boolean) as boolean
     else if botao.isSameNode(m.pauseButton)
       print "Pause pressionado"
       m.timer.control = "stop"
-    else if botao.isSameNode(m.umButton)
-      print "+1 minuto"
-      m.tempoRestante += 61
+    else if botao.isSameNode(m.trintaSegundosButton)
+      print "+ 0:30 minuto"
+      m.tempoRestante += 31
+      atualizaCronometro()
+    else if botao.isSameNode(m.trezButton)
+      print "+ 3:00 minutos"
+      m.tempoRestante += 3 * 60 + 1
       atualizaCronometro()
     else if botao.isSameNode(m.cincoButton)
-      print "+5 minutos"
+      print "+ 5:00 minutos"
       m.tempoRestante += 5 * 60 + 1
-      atualizaCronometro()
-    else if botao.isSameNode(m.dezButton)
-      print "+10 minutos"
-      m.tempoRestante += 10 * 60 + 1
       atualizaCronometro()
     else if botao.isSameNode(m.resetButton)
       print "Reset pressionado"
@@ -533,7 +457,17 @@ sub tocarSomAbertura()
   print "🔊 tentando tocar o som"
   audio = createObject("roSGNode", "Audio")
   content = createObject("roSGNode", "ContentNode")
-  content.url = "pkg:/sounds/timer-alarm-detector-bleeping-beeping.wav"
+  content.url = "pkg:/sounds/v.mp3"
+  audio.content = content
+  m.top.appendChild(audio)
+  audio.control = "play"
+end sub
+
+sub tocarSomFinalizado()
+  print "🔊 Tocando som de finalização do timer"
+  audio = createObject("roSGNode", "Audio")
+  content = createObject("roSGNode", "ContentNode")
+  content.url = "pkg:/sounds/buzzer-15-187758.mp3"
   audio.content = content
   m.top.appendChild(audio)
   audio.control = "play"
