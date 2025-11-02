@@ -24,6 +24,8 @@ sub init()
   m.deviceInfo = CreateObject("roDeviceInfo")
   m.deviceInfo.SetMessagePort(m.port)
   m.deviceInfo.EnableLinkStatusEvent(true)
+  m.dataHoraCache = invalid
+  m.offlineAtivo = false
 end sub
 
 sub observeFields()
@@ -245,6 +247,7 @@ sub initializeTimer()
 
   ' Timer para atualizar hora e data automaticamente
   m.clockTimer = createObject("roSGNode", "Timer")
+  m.clockTimer.duration = 1
   m.clockTimer.repeat = true
   m.clockTimer.observeField("fire", "atualizaHoraData")
   m.clockTimer.control = "start" ' Inicia automaticamente
@@ -287,14 +290,32 @@ sub atualizaCronometro()
 end sub
 
 sub atualizaHoraData()
-  ' Função chamada pelo timer para atualizar hora e data automaticamente
-  atualizaRelogio()
-  atualizaData()
+  if temConexaoInternet()
+    m.dataHoraCache = CreateObject("roDateTime")
+    m.dataHoraCache.ToLocalTime()
+    m.offlineAtivo = false
+  else
+    if m.dataHoraCache = invalid
+      m.dataHoraCache = CreateObject("roDateTime")
+      m.dataHoraCache.ToLocalTime()
+    else
+      m.dataHoraCache.AddSeconds(1)
+    end if
+    m.offlineAtivo = true
+  end if
+
+  atualizaRelogio(m.dataHoraCache)
+  atualizaData(m.dataHoraCache)
 end sub
 
-sub atualizaRelogio()
-  agora = CreateObject("roDateTime")
-  agora.ToLocalTime()
+sub atualizaRelogio(optional dataHora as dynamic)
+  agora = dataHora
+  if agora = invalid
+    agora = CreateObject("roDateTime")
+    agora.ToLocalTime()
+  else
+    agora.ToLocalTime()
+  end if
   hora = agora.GetHours().ToStr()
   if hora.len() = 1 then hora = "0" + hora
   minuto = agora.GetMinutes().ToStr()
@@ -302,9 +323,14 @@ sub atualizaRelogio()
   m.relogio.text = hora + ":" + minuto
 end sub
 
-sub atualizaData()
-  agora = CreateObject("roDateTime")
-  agora.ToLocalTime()
+sub atualizaData(optional dataHora as dynamic)
+  agora = dataHora
+  if agora = invalid
+    agora = CreateObject("roDateTime")
+    agora.ToLocalTime()
+  else
+    agora.ToLocalTime()
+  end if
   semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
   meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
   diaSemana = semana[agora.GetDayOfWeek()]
